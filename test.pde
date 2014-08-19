@@ -1,14 +1,14 @@
 void setup()
 {
 	size(600,600);
-	background(255);
+	background(0);
 	frameRate(60);
 	J=0;
 	frames=1000;
 }
 
 void draw(){ 
-	background(255); 
+	background(0); 
 	for(i=0;i<12;i++){
 		noStroke();
 		colorMode(HSB, 11);
