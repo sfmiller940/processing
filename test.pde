@@ -26,5 +26,5 @@ void draw(){
     }
   }
   J = (J+1) % frames;
-  saveFrame("line-######.png");
+  //saveFrame("line-######.png");
 }
