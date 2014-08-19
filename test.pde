@@ -14,7 +14,7 @@ void draw(){
 		colorMode(HSB, 11);
 		fill(  i, 12, 12  );
 		theta = (i * PI / 6) + ( TWO_PI * J / frames);
-		ellipse( ( 300 + ( 200 * sin( theta ) ) ),( 300 + ( 200 * cos( theta ) ) ),40,40)
+		ellipse( ( 300 + ( 250 * sin( theta ) ) ),( 300 + ( 250 * cos( theta ) ) ),50,50)
 	}
 	J = (J+1) % frames;
 }
