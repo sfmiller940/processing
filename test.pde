@@ -1,15 +1,15 @@
 int J=0;
 int frames=600;
-int numballs = 64;
-int numrings = 36;
+int numballs = 37;
+int numrings = 31;
 int ballsize=5;
-int maxradius = 280;
+int maxradius = 240;
 
 void setup()
 {
-  size(600,600);
+  size(500,500);
   background(0);
-  frameRate(100);
+  frameRate(20);
 }
 
 void draw(){ 
@@ -21,8 +21,8 @@ void draw(){
       colorMode(HSB, (numballs - 1) );
       fill(  i, (numballs - 1), (numballs - 1) );
       float theta = (i * TWO_PI / numballs) + ( 2 * TWO_PI * percent) + ( k * TWO_PI / numrings ) ;
-      float R = maxradius * sin( ( PI * percent ) + (k * PI / numrings) );
-      ellipse( ( 300 + ( R * sin( theta ) ) ),( 300 + ( R * cos( theta ) ) ),ballsize,ballsize);
+      float R = maxradius * ( 0.5 + ( 0.5 * sin( ( TWO_PI * percent ) + (k * TWO_PI / numrings) ) ) );
+      ellipse( ( 250 + ( R * sin( theta ) ) ),( 250 + ( R * cos( theta ) ) ),ballsize,ballsize);
     }
   }
   J = (J+1) % frames;
