@@ -9,7 +9,7 @@ void setup()
 {
   size(600,600);
   background(0);
-  frameRate(20);
+  frameRate(100);
 }
 
 void draw(){ 
@@ -20,7 +20,7 @@ void draw(){
       noStroke();
       colorMode(HSB, (numballs - 1) );
       fill(  i, (numballs - 1), (numballs - 1) );
-      float theta = (i * TWO_PI / numballs) + ( 2 * TWO_PI * percent) + ( k * PI / numrings ) ;
+      float theta = (i * TWO_PI / numballs) + ( 2 * TWO_PI * percent) + ( k * TWO_PI / numrings ) ;
       float R = maxradius * sin( ( PI * percent ) + (k * PI / numrings) );
       ellipse( ( 300 + ( R * sin( theta ) ) ),( 300 + ( R * cos( theta ) ) ),ballsize,ballsize);
     }
