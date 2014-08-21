@@ -1,5 +1,5 @@
 int J=0;
-int frames=500;
+int frames=600;
 int numballs = 37;
 int numrings = 31;
 int ballsize=5;
@@ -23,7 +23,7 @@ void draw(){
       fill(  i, (numballs - 1), (numballs - 1) );
       float theta = (i * TWO_PI / numballs) + ( 2 * TWO_PI * percent) + ( k * TWO_PI / numrings ) ;
       float R = minradius + ( (maxradius - minradius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * percent ) + (k * TWO_PI / numrings) ) ) ) );
-		float R2 = minradius *  ( 0.5 + ( 0.5 * sin( ( TWO_PI * percent ) + (k * TWO_PI / numrings) ) ) );
+    float R2 = minradius *  ( 0.5 + ( 0.5 * sin( ( TWO_PI * percent ) + (k * TWO_PI / numrings) ) ) );
       ellipse( ( 250 + ( R * sin( theta ) ) ),( 250 + ( R * cos( theta ) ) ),ballsize,ballsize);
       ellipse( ( 250 + ( R2 * sin( (-theta) ) ) ),( 250 + ( R2 * cos( theta ) ) ),ballsize,ballsize);
     }
