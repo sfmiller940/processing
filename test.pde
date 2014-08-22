@@ -24,7 +24,9 @@ void draw(){
       float theta = (i * TWO_PI / numballs) + ( 2 * TWO_PI * percent) + ( k * TWO_PI / numrings ) ;
       float R = minradius + ( (maxradius - minradius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * percent ) + (k * TWO_PI / numrings) ) ) ) );
     float R2 = minradius *  ( 0.5 + ( 0.5 * sin( ( TWO_PI * percent ) + (k * TWO_PI / numrings) ) ) );
+    	ballsize = 2 + (6 * R / maxradius);
       ellipse( ( 250 + ( R * sin( theta ) ) ),( 250 + ( R * cos( theta ) ) ),ballsize,ballsize);
+    	ballsize = 2 + (6 * R2 / maxradius);
       ellipse( ( 250 + ( R2 * sin( (-theta) ) ) ),( 250 + ( R2 * cos( theta ) ) ),ballsize,ballsize);
     }
   }
