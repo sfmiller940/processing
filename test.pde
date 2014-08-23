@@ -7,7 +7,7 @@ float midRadius = maxRadius / 2;
 int ringCount = 37;
 int ballCount = 43;
 int ballRadiusMin = 2;
-int ballRadiusDelta=6;
+int ballRadiusDelta=7;
 float percent=0;
 
 
