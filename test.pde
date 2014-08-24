@@ -5,7 +5,7 @@ int boxCenter = boxSize/2;
 float maxRadius = 1.4142 * boxCenter;
 float midRadius = maxRadius / 2;
 int ringCount = 24;
-int ballCount = 360;
+int ballCount = 480;
 int ballRadiusMin = 2;
 int ballRadiusDelta=10;
 float percent=0;
@@ -27,12 +27,12 @@ void draw(){
 //for (int ring=0; ring < ringCount; ring++){
     for (int ball=0; ball < ballCount; ball++){
       noStroke();
-      fill( ball , (ballCount - 1), (ballCount - 1) );
       float theta = TWO_PI * ( ((float)ball  / ballCount) + ( 8 * percent) );
       float R = maxRadius * sin ( 6 * theta ) * (ring+1) / ringCount;
       theta = theta + ( 2 * TWO_PI * percent ) + (TWO_PI * ring / ringCount );
       theta = (1 - ( 2* (ring % 2) )) * theta;
       float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / midRadius);
+      fill( ((abs(((ballCount - 1) * R / maxRadius) - ( 10 * percent * (ballCount) ))) % ballCount ), (ballCount - 1), (ballCount - 1) );
       ellipse( ( boxCenter + ( R * sin( theta ) ) ),( boxCenter + ( R * cos( theta ) ) ),ballsize,ballsize);
     }
   }
