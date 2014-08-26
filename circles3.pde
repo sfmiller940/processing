@@ -1,9 +1,9 @@
 // General variables
 int frames=500;
-int boxSize = 500;
+int boxSize = 600;
 int boxCenter = boxSize/2;
-int midRadius = 200;
-int maxRadius = 400;
+float maxRadius = 1.4142 * boxCenter;
+float midRadius = maxRadius / 2;
 int ringCount = 31;
 int ballCount = 37;
 int ballRadiusMin = 2;
