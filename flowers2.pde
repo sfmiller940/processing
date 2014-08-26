@@ -24,7 +24,6 @@ void draw(){
   background(0);
   percent=(float)( frameCount % frames  )/frames;
   for (int ring=ringCount; ring > 0; ring--){
-//for (int ring=0; ring < ringCount; ring++){
     for (int ball=0; ball < ballCount; ball++){
       noStroke();
       float theta = TWO_PI * ( ((float)ball  / ballCount) + ( 8 * percent) );
@@ -37,20 +36,4 @@ void draw(){
     }
   }
   saveFrame("flowers-######.png");
-}
-
-
-void drawCircles(float innerRadius, float outerRadius){
-  for (int ring=0; ring < ringCount; ring++){
-    for (int ball=0; ball < ballCount; ball++){
-      noStroke();
-      fill( ball , (ballCount - 1), (ballCount - 1) );
-      float R = innerRadius + ( (outerRadius - innerRadius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * (  percent  + ((float)ring / ringCount) ) ) ) ) ) );
-      if (R < (1.4142 * boxCenter) ){
-        float theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 2 * percent) );
-        float ballsize = ballRadiusMin + (ballRadiusDelta * R / midRadius);
-        ellipse( ( boxCenter + ( R * sin( theta ) ) ),( boxCenter + ( R * cos( theta ) ) ),ballsize,ballsize);
-      }
-    }
-  }
 }
