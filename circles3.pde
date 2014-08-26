@@ -24,21 +24,22 @@ void draw(){
   percent=(float)( frameCount % frames  )/frames;
   float inrad = midRadius * (0.5 - (0.5 * cos(TWO_PI * percent)));
   float outrad = midRadius + ( (maxRadius - midRadius) * (0.5 - (0.5 * cos(TWO_PI * percent))));
-  drawCircles(0,inrad);
-  drawCircles(inrad, midRadius);
-  drawCircles(midRadius,outrad);
-  drawCircles(outrad, maxRadius);  
+  drawCircles(0,inrad, true);
+  drawCircles(inrad, midRadius, false);
+  drawCircles(midRadius,outrad, true);
+  drawCircles(outrad, maxRadius, false);  
   //saveFrame("line-######.png");
 }
 
 
-void drawCircles(float innerRadius, float outerRadius){
+void drawCircles(float innerRadius, float outerRadius, boolean reverse){
   for (int ring=0; ring < ringCount; ring++){
     for (int ball=0; ball < ballCount; ball++){
       noStroke();
       fill( ball , (ballCount - 1), (ballCount - 1) );
       float R = innerRadius + ( (outerRadius - innerRadius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * ( percent  + ((float)ring / ringCount) ) ) ) ) ) );
       float theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 2 * percent) );
+      if (reverse){ theta = -theta; }
       float ballsize = ballRadiusMin + (ballRadiusDelta * R / midRadius);
       ellipse( ( boxCenter + ( R * sin( theta ) ) ),( boxCenter + ( R * cos( theta ) ) ),ballsize,ballsize);
     }
