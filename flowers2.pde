@@ -17,6 +17,7 @@ void setup()
   size(boxSize,boxSize);
   colorMode(HSB, ballCount );
   background(0);
+  noStroke();
 }
 
 
@@ -25,7 +26,6 @@ void draw(){
   percent=(float)( frameCount % frames  )/frames;
   for (int ring=ringCount; ring > 0; ring--){
     for (int ball=0; ball < ballCount; ball++){
-      noStroke();
       float theta = TWO_PI * ( ((float)ball  / ballCount) + ( 8 * percent) );
       float R = maxRadius * sin ( 6 * theta ) * (ring+1) / ringCount;
       theta = theta + ( 2 * TWO_PI * percent ) + (TWO_PI * ring / ringCount );
