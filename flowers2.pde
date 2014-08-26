@@ -15,7 +15,7 @@ void setup()
 {
   frameRate(5);
   size(boxSize,boxSize);
-  colorMode(HSB, (ballCount - 1) );
+  colorMode(HSB, ballCount );
   background(0);
 }
 
@@ -31,9 +31,9 @@ void draw(){
       theta = theta + ( 2 * TWO_PI * percent ) + (TWO_PI * ring / ringCount );
       theta = (1 - ( 2* (ring % 2) )) * theta;
       float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / midRadius);
-      fill( ((abs(((ballCount - 1) * R / maxRadius) - ( 10 * percent * (ballCount) ))) % ballCount ), (ballCount - 1), (ballCount - 1) );
+      fill( ( ( ballCount * ( abs((R / maxRadius) - (10 * percent)))) % ballCount ), ballCount , ballCount );
       ellipse( ( boxCenter + ( R * sin( theta ) ) ),( boxCenter + ( R * cos( theta ) ) ),ballsize,ballsize);
     }
   }
-  saveFrame("flowers-######.png");
+  //saveFrame("flowers-######.png");
 }
