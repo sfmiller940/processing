@@ -2,15 +2,12 @@
 int frames=1000;
 int boxSize = 700;
 float maxRadius = 1.4142 * boxSize / 2;
-float midRadius = maxRadius / 2;
 int ringCount = 31;
 int ballCount = 37;
 int ballRadiusMin = 2;
 int ballRadiusDelta=20;
 float percent=0;
 boolean rev = false;
-ArrayList<Integer> Xcenter = new ArrayList<Integer>();
-ArrayList<Integer> Ycenter = new ArrayList<Integer>();
 ArrayList<spinCircles> allCircles = new ArrayList<spinCircles>();
 
 
