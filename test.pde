@@ -1,42 +1,31 @@
 // General variables
-int frames=600;
-int boxSize = 500;
-int boxCenter = boxSize/2;
-float maxRadius = 1.4142 * boxCenter;
-float midRadius = maxRadius / 2;
-int ringCount = 24;
-int ballCount = 480;
+int frames=1000;
+int boxSize = 700;
+float maxRadius = 1.4142 * boxSize / 2;
+int ringCount = 31;
+int ballCount = 37;
 int ballRadiusMin = 2;
-int ballRadiusDelta=10;
+int ballRadiusDelta=25;
 float percent=0;
+boolean reverse = true;
+ArrayList<Integer> Xcenter = new ArrayList<Integer>();
+ArrayList<Integer> Ycenter = new ArrayList<Integer>();
 
 
 void setup()
 {
-  frameRate(5);
+  frameRate(50);
   size(boxSize,boxSize);
   colorMode(HSB, (ballCount - 1) );
-  background(0);
 }
 
 
 void draw(){ 
   background(0);
   percent=(float)( frameCount % frames  )/frames;
-  for (int ring=ringCount; ring > 0; ring--){
-//for (int ring=0; ring < ringCount; ring++){
-    for (int ball=0; ball < ballCount; ball++){
-      noStroke();
-      float theta = TWO_PI * ( ((float)ball  / ballCount) + ( 8 * percent) );
-      float R = maxRadius * sin ( 6 * theta ) * (ring+1) / ringCount;
-      theta = theta + ( 2 * TWO_PI * percent ) + (TWO_PI * ring / ringCount );
-      theta = (1 - ( 2* (ring % 2) )) * theta;
-      float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / midRadius);
-      fill( ((abs(((ballCount - 1) * R / maxRadius) - ( 10 * percent * (ballCount) ))) % ballCount ), (ballCount - 1), (ballCount - 1) );
-      ellipse( ( boxCenter + ( R * sin( theta ) ) ),( boxCenter + ( R * cos( theta ) ) ),ballsize,ballsize);
-    }
-  }
-  saveFrame("flowers-######.png");
+  float inrad = 2*maxRadius * (0.5 - (0.5 * cos(TWO_PI * percent)));
+  drawCircles(0,inrad);
+  //saveFrame("line-######.png");
 }
 
 
@@ -45,12 +34,19 @@ void drawCircles(float innerRadius, float outerRadius){
     for (int ball=0; ball < ballCount; ball++){
       noStroke();
       fill( ball , (ballCount - 1), (ballCount - 1) );
-      float R = innerRadius + ( (outerRadius - innerRadius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * (  percent  + ((float)ring / ringCount) ) ) ) ) ) );
-      if (R < (1.4142 * boxCenter) ){
-        float theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 2 * percent) );
-        float ballsize = ballRadiusMin + (ballRadiusDelta * R / midRadius);
-        ellipse( ( boxCenter + ( R * sin( theta ) ) ),( boxCenter + ( R * cos( theta ) ) ),ballsize,ballsize);
+      float R = innerRadius + ( (outerRadius - innerRadius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * ( percent  + ((float)ring / ringCount) ) ) ) ) ) );
+      float theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 2 * percent) );
+      if (reverse){ theta = -theta; }
+      float ballsize = ballRadiusMin + (ballRadiusDelta * R / maxRadius);
+      for(int i=0; i < Xcenter.size(); i++){
+        ellipse( ( Xcenter.get(i) + ( R * sin( theta ) ) ),( Ycenter.get(i) + ( R * cos( theta ) ) ),ballsize,ballsize);
       }
     }
   }
+}
+
+void mouseClicked() {
+  reverse = ! reverse;
+  Xcenter.add(mouseX);
+  Ycenter.add(mouseY);
 }
