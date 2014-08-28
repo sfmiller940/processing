@@ -2,7 +2,7 @@
 int frames=1000;
 float maxRadius = 300;
 int ballRadiusMin = 2;
-int ballRadiusDelta=20;
+int ballRadiusDelta=18;
 int Xclick;
 int Yclick;
 float percent=0;
@@ -95,7 +95,7 @@ class Spinners{
         if (spinType == "circles"){
           fill( ball , (ballCount - 1), (ballCount - 1) );
           R = innerRadius + ( (outerRadius - innerRadius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
-          theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 2 * ( percent - offset)) );
+          theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 4 * ( percent - offset)) );
         }
         else{
           theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
