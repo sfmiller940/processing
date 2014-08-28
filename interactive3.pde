@@ -44,7 +44,7 @@ class spinCircles{
     reverse = R;
   }
   void update(){
-    float outerRadius = outRad * ( 0.5 + ( 0.5 * sin( TWO_PI * ( percent - offset) ) ) );
+    float outerRadius = outRad * ( 0.5 - ( 0.5 * cos( TWO_PI * ( percent - offset) ) ) );
     for (int ring=0; ring < ringCount; ring++){
       for (int ball=0; ball < ballCount; ball++){
         fill( ball , (ballCount - 1), (ballCount - 1) );
@@ -65,9 +65,9 @@ void mousePressed() {
   rev = ! rev;
   Xclick = mouseX;
   Yclick = mouseY;
-  allCircles.add( new spinCircles( Xclick, Yclick, 0, dist(Xclick, Yclick, mouseX, mouseY), (percent - 0.25), rev ) );
+  allCircles.add( new spinCircles( Xclick, Yclick, 0, (2 * dist(Xclick, Yclick, mouseX, mouseY)), (percent - 0.25), rev ) );
 }
 
 void mouseDragged(){
-	allCircles.get( allCircles.size() - 1  ).updateRadius( dist(Xclick, Yclick, mouseX, mouseY) );
+	allCircles.get( allCircles.size() - 1  ).updateRadius( ( 2 * dist(Xclick, Yclick, mouseX, mouseY) ) );
 }
