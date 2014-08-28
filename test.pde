@@ -9,7 +9,7 @@ float percent=0;
 boolean rev = false;
 ArrayList<Integer> Xcenter = new ArrayList<Integer>();
 ArrayList<Integer> Ycenter = new ArrayList<Integer>();
-ArrayList<Spinners> allCircles = new ArrayList<Spinners>();
+ArrayList<Spinners> allSpinners = new ArrayList<Spinners>();
 spinMenu mainMenu = new spinMenu();
 String activeSpin = "flowers";
 boolean isMenu = false;
@@ -25,8 +25,8 @@ void setup()
 void draw(){ 
   background(0);
   percent=(float)( frameCount % frames  )/frames;
-  for(int i=0; i < allCircles.size(); i++){
-    allCircles.get(i).update();
+  for(int i=0; i < allSpinners.size(); i++){
+    allSpinners.get(i).update();
   }
   mainMenu.update();
   //saveFrame("line-######.png");
@@ -120,12 +120,12 @@ void mousePressed() {
     rev = ! rev;
     Xclick = mouseX;
     Yclick = mouseY;
-    allCircles.add( new Spinners( activeSpin, mouseX, mouseY, 0, (2 * dist(Xclick, Yclick, mouseX, mouseY)), (percent - 0.25), rev ) );
+    allSpinners.add( new Spinners( activeSpin, mouseX, mouseY, 0, (2 * dist(Xclick, Yclick, mouseX, mouseY)), (percent - 0.25), rev ) );
   }
 }
 
 void mouseDragged(){
-  if (! isMenu){ allCircles.get( allCircles.size() - 1  ).updateRadius( ( 2 * dist(Xclick, Yclick, mouseX, mouseY) ) );}
+  if (! isMenu){ allSpinners.get( allSpinners.size() - 1  ).updateRadius( ( 2 * dist(Xclick, Yclick, mouseX, mouseY) ) );}
 }
 
 void mouseReleased(){
