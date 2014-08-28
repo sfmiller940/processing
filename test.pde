@@ -86,7 +86,7 @@ class spinFlowers{
         theta = (1 - ( 2* (ring % 2) )) * theta;
         if (reverse){ theta = -theta; }
         float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / maxRadius);
-        fill( ( ( ballCount * ( abs((R / maxRadius) - (10 * percent)))) % ballCount ), ballCount , ballCount );
+        fill( ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount ), ballCount , ballCount );
         ellipse( ( Xcenter + ( R * sin( theta ) ) ),( Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
       }
     }
