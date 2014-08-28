@@ -9,12 +9,14 @@ float percent=0;
 boolean rev = false;
 ArrayList<Integer> Xcenter = new ArrayList<Integer>();
 ArrayList<Integer> Ycenter = new ArrayList<Integer>();
-ArrayList<spinFlowers> allCircles = new ArrayList<spinFlowers>();
-
+ArrayList<Spinners> allCircles = new ArrayList<Spinners>();
+spinMenu mainMenu = new spinMenu();
+String activeSpin = "flowers";
+boolean isMenu = false;
 
 void setup()
 {
-  frameRate(60);
+  frameRate(40);
   size(700,700);
   noStroke();
 }
@@ -26,48 +28,57 @@ void draw(){
   for(int i=0; i < allCircles.size(); i++){
     allCircles.get(i).update();
   }
+  mainMenu.update();
   //saveFrame("line-######.png");
 }
 
-class spinCircles{
+class spinMenu{
+  int leftx = 10;
+  int topy = 10;
+  int wide=40;
+  int high=40;
+  spinMenu(){}
+  boolean isClicked(){
+    if ( ( leftx < mouseX ) && (mouseX < (leftx + wide) )  && ( topy < mouseY) && (mouseY < (topy + high) ) ){
+      if (activeSpin == "circles"){ activeSpin = "flowers"; }
+      else{ activeSpin = "circles"; }
+      isMenu = true;
+      return true;
+    }
+    else
+      { return false; }
+  }
+  void update(){
+    colorMode(HSB, 20 );
+    fill(10);
+    rect(leftx, topy, wide, high, 5);
+    if (activeSpin == "circles"){
+      for(int i=0; i<20; i++){
+        fill(i, 20, 20);
+        ellipse( leftx + (wide / 2 ) + (15 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 15 * sin(TWO_PI * i /20) ), 2, 2 );
+      }
+    }
+    else{
+      for(int i=0; i<20; i++){
+        fill(i, 20, 20);
+        ellipse( leftx + (wide / 2 ) + (15 * cos(TWO_PI * i /20) * sin(2 * TWO_PI * i /20) ), topy + (high / 2  ) +  ( 15 * sin(TWO_PI * i /20)* sin(2 * TWO_PI * i /20) ), 2, 2 );
+      }
+    }
+  }
+}
+
+class Spinners{
+  String spinType;
   int ringCount = 31;
   int ballCount = 37;
   float Xcenter, Ycenter, innerRadius, outRad, offset;
   boolean reverse;
-  spinCircles(float X, float Y, float I, float O, float OF, boolean R){
-    Xcenter = X;
-    Ycenter = Y;
-    innerRadius = I;
-    outRad = O;
-    offset = OF;
-    reverse = R;
-  }
-  void update(){
-    colorMode(HSB, (ballCount - 1) );
-    float outerRadius = outRad * ( 0.5 - ( 0.5 * cos( TWO_PI * ( percent - offset) ) ) );
-    for (int ring=0; ring < ringCount; ring++){
-      for (int ball=0; ball < ballCount; ball++){
-        fill( ball , (ballCount - 1), (ballCount - 1) );
-        float R = innerRadius + ( (outerRadius - innerRadius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
-        float theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 2 * ( percent - offset)) );
-        if (reverse){ theta = -theta; }
-        float ballsize = ballRadiusMin + (ballRadiusDelta * R / maxRadius);
-        ellipse( ( Xcenter + ( R * sin( theta ) ) ),( Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
-      }
+  Spinners(String S, float X, float Y, float I, float O, float OF, boolean R){
+    spinType = S;
+    if (spinType == "flowers"){
+      int ringCount = 17;
+      int ballCount = 71;
     }
-  }
-  void updateRadius( float newRadius){
-    outRad = newRadius;
-  }
-}
-
-
-class spinFlowers{
-  int ringCount = 13;
-  int ballCount = 61;
-  float Xcenter, Ycenter, innerRadius, outRad, offset;
-  boolean reverse;
-  spinFlowers(float X, float Y, float I, float O, float OF, boolean R){
     Xcenter = X;
     Ycenter = Y;
     innerRadius = I;
@@ -80,13 +91,21 @@ class spinFlowers{
     float outerRadius = outRad * ( 0.5 - ( 0.5 * cos( TWO_PI * ( percent - offset) ) ) );
     for (int ring=0; ring < ringCount; ring++){
       for (int ball=0; ball < ballCount; ball++){
-        float theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
-        float R = outerRadius * sin ( 2 * theta ) * (ring+1) / ringCount;
-        theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
-        theta = (1 - ( 2* (ring % 2) )) * theta;
-        if (reverse){ theta = -theta; }
+        float R, theta;
+        if (spinType == "circles"){
+          fill( ball , (ballCount - 1), (ballCount - 1) );
+          R = innerRadius + ( (outerRadius - innerRadius) * ( 0.5 + ( 0.5 * sin( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
+          theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 2 * ( percent - offset)) );
+        }
+        else{
+          theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
+          R = outerRadius * sin ( 4 * theta ) * (ring+1) / ringCount;
+          theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
+          theta = (1 - ( 2* (ring % 2) )) * theta;
+          fill( ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount ), ballCount , ballCount );
+        }
         float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / maxRadius);
-        fill( ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount ), ballCount , ballCount );
+        if (reverse){ theta = -theta; }
         ellipse( ( Xcenter + ( R * sin( theta ) ) ),( Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
       }
     }
@@ -95,16 +114,20 @@ class spinFlowers{
     outRad = newRadius;
   }
 }
-
-
 
 void mousePressed() {
-  rev = ! rev;
-  Xclick = mouseX;
-  Yclick = mouseY;
-  allCircles.add( new spinFlowers( Xclick, Yclick, 0, (2 * dist(Xclick, Yclick, mouseX, mouseY)), (percent - 0.25), rev ) );
+  if ( ! mainMenu.isClicked() ){
+    rev = ! rev;
+    Xclick = mouseX;
+    Yclick = mouseY;
+    allCircles.add( new Spinners( activeSpin, mouseX, mouseY, 0, (2 * dist(Xclick, Yclick, mouseX, mouseY)), (percent - 0.25), rev ) );
+  }
 }
 
 void mouseDragged(){
-  allCircles.get( allCircles.size() - 1  ).updateRadius( ( 2 * dist(Xclick, Yclick, mouseX, mouseY) ) );
+  if (! isMenu){ allCircles.get( allCircles.size() - 1  ).updateRadius( ( 2 * dist(Xclick, Yclick, mouseX, mouseY) ) );}
+}
+
+void mouseReleased(){
+  isMenu = false;
 }
