@@ -1,8 +1,5 @@
 // General variables
 int frames=1000;
-int boxSize = 700;
-float maxRadius = 1.4142 * boxSize / 2;
-float midRadius = maxRadius / 2;
 int ringCount = 31;
 int ballCount = 37;
 int ballRadiusMin = 2;
@@ -19,7 +16,7 @@ ArrayList<spinCircles> allCircles = new ArrayList<spinCircles>();
 void setup()
 {
   frameRate(100);
-  size(boxSize,boxSize);
+  size(window.innerWidth,(window.innerHeight - 60));
   colorMode(HSB, (ballCount - 1) );
   noStroke();
 }
@@ -73,4 +70,3 @@ void mousePressed() {
 void mouseDragged(){
 	allCircles.get( allCircles.size() - 1  ).updateRadius( dist(Xclick, Yclick, mouseX, mouseY) );
 }
-
