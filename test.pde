@@ -1,6 +1,6 @@
 // General variables
 int frames=1000;
-float maxRadius = 400;
+float maxRadius = 300;
 int ballRadiusMin = 2;
 int ballRadiusDelta=20;
 int Xclick;
@@ -63,8 +63,8 @@ class spinCircles{
 
 
 class spinFlowers{
-  int ringCount = 37;
-  int ballCount = 31;
+  int ringCount = 13;
+  int ballCount = 61;
   float Xcenter, Ycenter, innerRadius, outRad, offset;
   boolean reverse;
   spinFlowers(float X, float Y, float I, float O, float OF, boolean R){
