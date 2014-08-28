@@ -82,7 +82,7 @@ class spinFlowers{
       for (int ball=0; ball < ballCount; ball++){
         float theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
         float R = outerRadius * sin ( 2 * theta ) * (ring+1) / ringCount;
-        theta = theta + ( 2 * TWO_PI * percent ) + (TWO_PI * ring / ringCount );
+        theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
         theta = (1 - ( 2* (ring % 2) )) * theta;
         if (reverse){ theta = -theta; }
         float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / maxRadius);
