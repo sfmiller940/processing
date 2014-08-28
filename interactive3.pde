@@ -1,6 +1,7 @@
 // General variables
 int frames=1000;
 int ringCount = 31;
+float maxRadius = 400;
 int ballCount = 37;
 int ballRadiusMin = 2;
 int ballRadiusDelta=20;
