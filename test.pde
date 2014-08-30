@@ -64,8 +64,8 @@ interface buttonIcon {
 class buttonClass{
   String key;
   int leftx, topy;
-  int wide = 35;
-  int high = 35;
+  int wide = 30;
+  int high = 30;
   buttonClass (String K, int L, int T){
     key = K;
     leftx = L;
@@ -87,15 +87,15 @@ class buttonClass{
       ellipse( leftx + (wide / 2 ), topy + (high / 2  ), 2, 2 );
       for(int i=0; i<20; i++){
         fill(i, 20, 20);
-        ellipse( leftx + (wide / 2 ) + (10 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 10 * sin(TWO_PI * i /20) ), 2, 2 );
-        ellipse( leftx + (wide / 2 ) + (5 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 5 * sin(TWO_PI * i /20) ), 2, 2 );
+        ellipse( leftx + (wide / 2 ) + (7 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 7 * sin(TWO_PI * i /20) ), 2, 2 );
+        ellipse( leftx + (wide / 2 ) + (4 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 4 * sin(TWO_PI * i /20) ), 2, 2 );
       }
     } },
     new buttonIcon() { public void updateIcon() { 
       for(int i=0; i<20; i++){
         fill(i, 20, 20);
-        ellipse( leftx + (wide / 2 ) + (14 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 14 * sin(TWO_PI * i /20) ), 2, 2 );
-        ellipse( leftx + (wide / 2 ) + (9 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 9 * sin(TWO_PI * i /20) ), 2, 2 );
+        ellipse( leftx + (wide / 2 ) + (12 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 12 * sin(TWO_PI * i /20) ), 2, 2 );
+        ellipse( leftx + (wide / 2 ) + (8 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 8 * sin(TWO_PI * i /20) ), 2, 2 );
       }
     } },
     new buttonIcon() { public void updateIcon() { 
@@ -133,14 +133,12 @@ class buttonClass{
 class mainMenuClass{
   int leftx = 10;
   int topy = 10;
-  int wide=35;
-  int high=35;
   ArrayList<buttonClass> allButtons = new ArrayList<buttonClass>();
 
   mainMenuClass(){
     int i=0;
     for (String key : spinnerTypes.keys){
-      allButtons.add( new buttonClass(key, ( leftx + ( 40 * (i % 2) ) ), ( topy + (40 * (int)(i / 2) ) ) ) );
+      allButtons.add( new buttonClass(key, ( leftx + ( 33 * (i % 2) ) ), ( topy + (33 * (int)(i / 2) ) ) ) );
       i++;
     }
   }
@@ -151,11 +149,13 @@ class mainMenuClass{
     }
     return false;
   }
+
   void update(){
     for(int i=0; i < allButtons.size(); i++){
       allButtons.get(i).update();
     }
   }
+
 }
 
 // Class for individual spinners
