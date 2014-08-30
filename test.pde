@@ -9,7 +9,7 @@ boolean rev = false;
 public spinnerTypesClass spinnerTypes = new spinnerTypesClass();
 mainMenuClass mainMenu = new mainMenuClass();
 ArrayList<Spinners> allSpinners = new ArrayList<Spinners>();
-String activeSpin = "flowers";
+String activeSpin = "wheels";
 boolean isMenu = false;
 
 // Setup
@@ -161,14 +161,23 @@ class mainMenuClass{
 // Class for individual spinners
 class Spinners{
   String spinType;
+  boolean reverse;
+  float Xcenter, Ycenter, innerRadius, outRad, offset;
   int ringCount = 31;
   int ballCount = 37;
   int ballRadiusMin = 2;
   int ballRadiusDelta=14;
-  float Xcenter, Ycenter, innerRadius, outRad, offset;
-  boolean reverse;
+  int colorOffset;
+
   Spinners(String S, float X, float Y, float I, float O, float OF, boolean R){
     spinType = S;
+    reverse = R;
+    Xcenter = X;
+    Ycenter = Y;
+    innerRadius = I;
+    outRad = O;
+    offset = OF;
+    if (spinType == "wheelsEye" || spinType == "flowersEye"){ offset += 0.25; }
     if (spinType == "fireworks" ){
       ringCount = 71;
       ballCount = 71;
@@ -177,60 +186,65 @@ class Spinners{
       ringCount = 16;
       ballCount = 101;
     }
-    Xcenter = X;
-    Ycenter = Y;
-    innerRadius = I;
-    outRad = O;
-    offset = OF;
-    if (spinType == "wheelsEye" || spinType == "flowersEye"){ offset += 0.25; }
-    reverse = R;
+    colorOffset = (int)random(ballCount);
   }
+  
+  void updateRadius( float newRadius){
+    outRad = newRadius;
+  }
+
   void update(){
     colorMode(HSB, (ballCount - 1) );
     float outerRadius = outRad * ( 0.5 - ( 0.5 * cos( 2 * TWO_PI * ( percent - offset) ) ) );
     for (int ring=0; ring < ringCount; ring++){
       for (int ball=0; ball < ballCount; ball++){
         float R, theta;
+        int filler;
         if (spinType == "wheels"){
-          fill( ball , (ballCount - 1), (ballCount - 1) );
           R = innerRadius + ( (outerRadius - innerRadius) *  sin( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) );
           theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 4 * ( percent - offset)) );
+          filler = ball;
         }
         else if (spinType == "wheelsEye"){
-          fill( ball , (ballCount - 1), (ballCount - 1) );
           R = outerRadius + ( (outRad - outerRadius) * ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
           theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 4 * ( percent - offset )) );
+          filler = ball;
         }
         else if (spinType == "fireworks"){
           theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
           R = outerRadius * sin ( 4 * theta ) * (ring+1) / ringCount;
           theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
           theta = (1 - ( 2* (ring % 2) )) * theta;
-          fill( ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount ), ballCount , ballCount );
+          filler = ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount );
         }
-        else if (spinType == "flowersEye"){
-          theta = TWO_PI * ( ((float)ball  / ballCount) + ( 12 * percent) );
-          R = outerRadius + ( (outRad - outerRadius) * (0.5 + ( 0.5 * cos( theta) ) ) ) ;
-          theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
-          int ringsign = (1 - ( 2* (ring % 2) ));
-          theta = ringsign * theta;
-          fill( ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount ), ballCount , ballCount );
-        }
-        else {
+        else if (spinType =="flowers"){
           theta = TWO_PI * ( percent + (ball / ballCount ) );
           R = outerRadius  * (0.5 + ( 0.5 * cos( theta) ) )  ;
           theta = theta +  (TWO_PI * ( percent + ( (ring+1) / ringCount) + ( (ball+1) / ballCount) ) );
           int ringsign = (1 - ( 2* (ring % 2) ));
           theta = ringsign * theta;
-          fill( ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount ), ballCount , ballCount );
+          filler = ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount );
         }
+        else if (spinType == "flowersEye"){
+          theta = TWO_PI * ( percent + (ball / ballCount ) );
+          R = outerRadius + ( ( outRad - outerRadius ) * (0.5 + ( 0.5 * cos( theta) ) ) ) ;
+          theta = theta +  (TWO_PI * ( percent + ( (ring+1) / ringCount) + ( (ball+1) / ballCount) ) );
+          int ringsign = (1 - ( 2* (ring % 2) ));
+          theta = ringsign * theta;
+          filler = ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount );
+        }
+        else {
+          theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
+          R = outerRadius * sin ( 4 * theta ) * (ring+1) / ringCount;
+          theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
+          theta = (1 - ( 2* (ring % 2) )) * theta;
+          filler = ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount );
+        }
+        fill( (filler + colorOffset) % ballCount , ballCount, ballCount  );
         float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / maxRadius);
         if (reverse){ theta = -theta; }
         ellipse( ( Xcenter + ( R * sin( theta ) ) ),( Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
       }
     }
-  }
-  void updateRadius( float newRadius){
-    outRad = newRadius;
   }
 }
