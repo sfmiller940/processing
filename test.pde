@@ -1,3 +1,4 @@
+
 // General variables
 int frames=800;
 float maxRadius = 300;
@@ -5,13 +6,13 @@ int Xclick;
 int Yclick;
 float percent=0;
 boolean rev = false;
-ArrayList<Integer> Xcenter = new ArrayList<Integer>();
-ArrayList<Integer> Ycenter = new ArrayList<Integer>();
+public spinnerTypesClass spinnerTypes = new spinnerTypesClass();
+mainMenuClass mainMenu = new mainMenuClass();
 ArrayList<Spinners> allSpinners = new ArrayList<Spinners>();
-spinMenu mainMenu = new spinMenu();
 String activeSpin = "flowers";
 boolean isMenu = false;
 
+// Setup
 void setup()
 {
   frameRate(60);
@@ -19,7 +20,7 @@ void setup()
   noStroke();
 }
 
-
+// Main Loop.
 void draw(){ 
   background(0);
   percent=(float)( frameCount % frames  )/frames;
@@ -30,30 +31,58 @@ void draw(){
   //saveFrame("line-######.png");
 }
 
-class spinMenu{
-  int leftx = 10;
-  int topy = 10;
-  int wide=35;
-  int high=35;
-  spinMenu(){}
+// Mouse Actions
+void mousePressed() {
+  if (  mainMenu.isClicked() ){ isMenu = true; }
+  else {
+    rev = ! rev;
+    Xclick = mouseX;
+    Yclick = mouseY;
+    allSpinners.add( new Spinners( activeSpin, mouseX, mouseY, 0, (2 * dist(Xclick, Yclick, mouseX, mouseY)), (percent - 0.25), rev ) );
+  }
+}
+
+void mouseDragged(){
+  if (! isMenu){ allSpinners.get( allSpinners.size() - 1  ).updateRadius( ( 2 * dist(Xclick, Yclick, mouseX, mouseY) ) );}
+}
+
+void mouseReleased(){
+  isMenu = false;
+}
+
+// Class for different spinner types.
+class spinnerTypesClass{
+   String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "fireworks"};
+
+}
+
+// Class for menu buttons.
+interface buttonIcon {
+    void updateIcon();
+  }
+  
+class buttonClass{
+  String key;
+  int leftx, topy;
+  int wide = 35;
+  int high = 35;
+  buttonClass (String K, int L, int T){
+    key = K;
+    leftx = L;
+    topy = T;
+  }
+
   boolean isClicked(){
     if ( ( leftx < mouseX ) && (mouseX < (leftx + wide) )  && ( topy < mouseY) && (mouseY < (topy + high) ) ){
-      if (activeSpin == "circles"){ activeSpin = "circlesEye"; }
-      else if (activeSpin == "circlesEye"){ activeSpin = "flowers"; }
-      else if (activeSpin == "flowers"){ activeSpin = "flowersEye"; }
-      else if (activeSpin == "flowersEye"){ activeSpin = "pinata"; }
-      else{ activeSpin = "circles"; }
-      isMenu = true;
+      activeSpin = key;
       return true;
     }
-    else
-      { return false; }
+    else { return false; }
   }
-  void update(){
-    colorMode(HSB, 20 );
-    fill(15);
-    rect(leftx, topy, wide, high, 5);
-    if (activeSpin == "circles"){
+ 
+  buttonIcon[] buttonIcons = new buttonIcon[] {
+    new buttonIcon() { public void updateIcon() { 
+      colorMode(HSB, 20 );
       fill(0, 20, 20);
       ellipse( leftx + (wide / 2 ), topy + (high / 2  ), 2, 2 );
       for(int i=0; i<20; i++){
@@ -61,37 +90,75 @@ class spinMenu{
         ellipse( leftx + (wide / 2 ) + (10 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 10 * sin(TWO_PI * i /20) ), 2, 2 );
         ellipse( leftx + (wide / 2 ) + (5 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 5 * sin(TWO_PI * i /20) ), 2, 2 );
       }
-    }
-    else if (activeSpin == "circlesEye"){
+    } },
+    new buttonIcon() { public void updateIcon() { 
       for(int i=0; i<20; i++){
         fill(i, 20, 20);
         ellipse( leftx + (wide / 2 ) + (14 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 14 * sin(TWO_PI * i /20) ), 2, 2 );
         ellipse( leftx + (wide / 2 ) + (9 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 9 * sin(TWO_PI * i /20) ), 2, 2 );
-
       }
-    }
-    else if (activeSpin == "pinata"){
+    } },
+    new buttonIcon() { public void updateIcon() { 
+      for(int i=0; i<100; i++){
+        fill(i%20, 20, 20);
+        ellipse( leftx + (wide / 2 ) + ( (10 * cos(TWO_PI * i / 40) )  * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( (10 * cos(TWO_PI * i / 40) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
+      }
+    } },
+    new buttonIcon() { public void updateIcon() { 
+      for(int i=0; i<40; i++){
+        fill(i%20, 20, 20);
+        ellipse( leftx + (wide / 2 ) + ( ( 9 + (2 * cos(TWO_PI * i / 40) ) ) * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( ( 9 + (2 * cos(TWO_PI * i / 40) ) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
+      }
+    } },
+    new buttonIcon() { public void updateIcon() { 
       for(int i=0; i<20; i++){
         fill(i, 20, 20);
         ellipse( leftx + (wide / 2 ) + (10 * cos(TWO_PI * i /20) * sin(2 * TWO_PI * i /20) ), topy + (high / 2  ) +  ( 10 * sin(TWO_PI * i /20)* sin(2 * TWO_PI * i /20) ), 2, 2 );
         ellipse( leftx + (wide / 2 ) + (5 * cos(TWO_PI * i /20) * sin(2 * TWO_PI * i /20) ), topy + (high / 2  ) +  ( 5 * sin(TWO_PI * i /20)* sin(2 * TWO_PI * i /20) ), 2, 2 );
       }
+    } }
+  };
+
+  void update(){
+    colorMode(HSB, 20 );
+    if (activeSpin == key){ fill(17); }
+    else { fill(9); }
+    rect(leftx, topy, wide, high, 5);
+    buttonIcons[ spinnerTypes.keys.indexOf(key) ].updateIcon();
+  }
+
+}
+
+// Class for menu
+class mainMenuClass{
+  int leftx = 10;
+  int topy = 10;
+  int wide=35;
+  int high=35;
+  ArrayList<buttonClass> allButtons = new ArrayList<buttonClass>();
+
+  mainMenuClass(){
+    int i=0;
+    for (String key : spinnerTypes.keys){
+      allButtons.add( new buttonClass(key, ( leftx + ( 40 * (i % 2) ) ), ( topy + (40 * (int)(i / 2) ) ) ) );
+      i++;
     }
-    else if (activeSpin == "flowersEye"){
-      for(int i=0; i<40; i++){
-        fill(i%20, 20, 20);
-        ellipse( leftx + (wide / 2 ) + ( ( 9 + (2 * cos(TWO_PI * i / 40) ) ) * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( ( 9 + (2 * cos(TWO_PI * i / 40) ) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
-      }
+  }
+
+  boolean isClicked(){
+    for(int i=0; i < allButtons.size(); i++){
+      if( allButtons.get(i).isClicked() ){ return true; }
     }
-    else{
-      for(int i=0; i<100; i++){
-        fill(i%20, 20, 20);
-        ellipse( leftx + (wide / 2 ) + ( (10 * cos(TWO_PI * i / 40) )  * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( (10 * cos(TWO_PI * i / 40) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
-      }
+    return false;
+  }
+  void update(){
+    for(int i=0; i < allButtons.size(); i++){
+      allButtons.get(i).update();
     }
   }
 }
 
+// Class for individual spinners
 class Spinners{
   String spinType;
   int ringCount = 31;
@@ -102,7 +169,7 @@ class Spinners{
   boolean reverse;
   Spinners(String S, float X, float Y, float I, float O, float OF, boolean R){
     spinType = S;
-    if (spinType == "pinata" ){
+    if (spinType == "fireworks" ){
       ringCount = 71;
       ballCount = 71;
     }
@@ -115,7 +182,7 @@ class Spinners{
     innerRadius = I;
     outRad = O;
     offset = OF;
-    if (spinType == "circlesEye" || spinType == "flowersEye"){ offset += 0.25; }
+    if (spinType == "wheelsEye" || spinType == "flowersEye"){ offset += 0.25; }
     reverse = R;
   }
   void update(){
@@ -124,17 +191,17 @@ class Spinners{
     for (int ring=0; ring < ringCount; ring++){
       for (int ball=0; ball < ballCount; ball++){
         float R, theta;
-        if (spinType == "circles"){
+        if (spinType == "wheels"){
           fill( ball , (ballCount - 1), (ballCount - 1) );
           R = innerRadius + ( (outerRadius - innerRadius) *  sin( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) );
           theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 4 * ( percent - offset)) );
         }
-        else if (spinType == "circlesEye"){
+        else if (spinType == "wheelsEye"){
           fill( ball , (ballCount - 1), (ballCount - 1) );
           R = outerRadius + ( (outRad - outerRadius) * ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
           theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 4 * ( percent - offset )) );
         }
-        else if (spinType == "pinata"){
+        else if (spinType == "fireworks"){
           theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
           R = outerRadius * sin ( 4 * theta ) * (ring+1) / ringCount;
           theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
@@ -166,21 +233,4 @@ class Spinners{
   void updateRadius( float newRadius){
     outRad = newRadius;
   }
-}
-
-void mousePressed() {
-  if ( ! mainMenu.isClicked() ){
-    rev = ! rev;
-    Xclick = mouseX;
-    Yclick = mouseY;
-    allSpinners.add( new Spinners( activeSpin, mouseX, mouseY, 0, (2 * dist(Xclick, Yclick, mouseX, mouseY)), (percent - 0.25), rev ) );
-  }
-}
-
-void mouseDragged(){
-  if (! isMenu){ allSpinners.get( allSpinners.size() - 1  ).updateRadius( ( 2 * dist(Xclick, Yclick, mouseX, mouseY) ) );}
-}
-
-void mouseReleased(){
-  isMenu = false;
 }
