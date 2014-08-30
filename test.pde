@@ -163,8 +163,8 @@ class Spinners{
   String spinType;
   boolean reverse;
   float Xcenter, Ycenter, innerRadius, outRad, offset;
-  int ringCount = 31;
-  int ballCount = 37;
+  int ringCount = 29;
+  int ballCount = 47;
   int ballRadiusMin = 2;
   int ballRadiusDelta=14;
   int colorOffset;
@@ -202,7 +202,7 @@ class Spinners{
         int filler;
         if (spinType == "wheels"){
           R = innerRadius + ( (outerRadius - innerRadius) *  sin( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) );
-          theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 4 * ( percent - offset)) );
+          theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 3 * ( percent - offset)) );
           filler = ball;
         }
         else if (spinType == "wheelsEye"){
