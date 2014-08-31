@@ -69,7 +69,52 @@ void mouseReleased(){
 
 // Class for different spinner types.
 class spinnerTypesClass{
-   String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "fireworks"};
+  String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "fireworks"};
+
+  void buttonIcon( String key, int leftx, int topy, int wide, int high ){
+    switch (key) {
+      case "wheels":
+        colorMode(HSB, 20 );
+        fill(0, 20, 20);
+        ellipse( leftx + (wide / 2 ), topy + (high / 2  ), 2, 2 );
+        for(int i=0; i<20; i++){
+          fill(i, 20, 20);
+          ellipse( leftx + (wide / 2 ) + (7 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 7 * sin(TWO_PI * i /20) ), 2, 2 );
+          ellipse( leftx + (wide / 2 ) + (4 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 4 * sin(TWO_PI * i /20) ), 2, 2 );
+        }
+        break;
+      case "wheelsEye":
+        colorMode(HSB, 20 );
+        for(int i=0; i<20; i++){
+          fill(i, 20, 20);
+          ellipse( leftx + (wide / 2 ) + (12 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 12 * sin(TWO_PI * i /20) ), 2, 2 );
+          ellipse( leftx + (wide / 2 ) + (8 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 8 * sin(TWO_PI * i /20) ), 2, 2 );
+        }
+        break;
+      case "flowers":
+        colorMode(HSB, 20 );
+        for(int i=0; i<100; i++){
+          fill(i%20, 20, 20);
+          ellipse( leftx + (wide / 2 ) + ( (10 * cos(TWO_PI * i / 40) )  * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( (10 * cos(TWO_PI * i / 40) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
+        }
+        break;
+      case "flowersEye":
+        colorMode(HSB, 20 );
+        for(int i=0; i<40; i++){
+          fill(i%20, 20, 20);
+          ellipse( leftx + (wide / 2 ) + ( ( 9 + (2 * cos(TWO_PI * i / 40) ) ) * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( ( 9 + (2 * cos(TWO_PI * i / 40) ) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
+        }
+        break;
+      case "fireworks":
+        colorMode(HSB, 20 );
+        for(int i=0; i<20; i++){
+          fill(i, 20, 20);
+          ellipse( leftx + (wide / 2 ) + (10 * cos(TWO_PI * i /20) * sin(2 * TWO_PI * i /20) ), topy + (high / 2  ) +  ( 10 * sin(TWO_PI * i /20)* sin(2 * TWO_PI * i /20) ), 2, 2 );
+          ellipse( leftx + (wide / 2 ) + (5 * cos(TWO_PI * i /20) * sin(2 * TWO_PI * i /20) ), topy + (high / 2  ) +  ( 5 * sin(TWO_PI * i /20)* sin(2 * TWO_PI * i /20) ), 2, 2 );
+        }
+        break;
+    }
+  }
 }
 
 // Class for individual spinners
@@ -169,11 +214,7 @@ class Spinners{
 /
 */
 
-// Class for menu buttons.
-interface buttonIcon {
-    void updateIcon();
-  }
-  
+// Class for menu buttons.  
 class buttonClass{
   String key;
   int leftx, topy;
@@ -193,51 +234,12 @@ class buttonClass{
     else { return false; }
   }
  
-  buttonIcon[] buttonIcons = new buttonIcon[] {
-    new buttonIcon() { public void updateIcon() { 
-      colorMode(HSB, 20 );
-      fill(0, 20, 20);
-      ellipse( leftx + (wide / 2 ), topy + (high / 2  ), 2, 2 );
-      for(int i=0; i<20; i++){
-        fill(i, 20, 20);
-        ellipse( leftx + (wide / 2 ) + (7 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 7 * sin(TWO_PI * i /20) ), 2, 2 );
-        ellipse( leftx + (wide / 2 ) + (4 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 4 * sin(TWO_PI * i /20) ), 2, 2 );
-      }
-    } },
-    new buttonIcon() { public void updateIcon() { 
-      for(int i=0; i<20; i++){
-        fill(i, 20, 20);
-        ellipse( leftx + (wide / 2 ) + (12 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 12 * sin(TWO_PI * i /20) ), 2, 2 );
-        ellipse( leftx + (wide / 2 ) + (8 * cos(TWO_PI * i /20) ), topy + (high / 2  ) +  ( 8 * sin(TWO_PI * i /20) ), 2, 2 );
-      }
-    } },
-    new buttonIcon() { public void updateIcon() { 
-      for(int i=0; i<100; i++){
-        fill(i%20, 20, 20);
-        ellipse( leftx + (wide / 2 ) + ( (10 * cos(TWO_PI * i / 40) )  * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( (10 * cos(TWO_PI * i / 40) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
-      }
-    } },
-    new buttonIcon() { public void updateIcon() { 
-      for(int i=0; i<40; i++){
-        fill(i%20, 20, 20);
-        ellipse( leftx + (wide / 2 ) + ( ( 9 + (2 * cos(TWO_PI * i / 40) ) ) * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( ( 9 + (2 * cos(TWO_PI * i / 40) ) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
-      }
-    } },
-    new buttonIcon() { public void updateIcon() { 
-      for(int i=0; i<20; i++){
-        fill(i, 20, 20);
-        ellipse( leftx + (wide / 2 ) + (10 * cos(TWO_PI * i /20) * sin(2 * TWO_PI * i /20) ), topy + (high / 2  ) +  ( 10 * sin(TWO_PI * i /20)* sin(2 * TWO_PI * i /20) ), 2, 2 );
-        ellipse( leftx + (wide / 2 ) + (5 * cos(TWO_PI * i /20) * sin(2 * TWO_PI * i /20) ), topy + (high / 2  ) +  ( 5 * sin(TWO_PI * i /20)* sin(2 * TWO_PI * i /20) ), 2, 2 );
-      }
-    } }
-  };
-
   void update(){
     colorMode(HSB, 20 );
     if (activeSpin == key){ fill(17); }
     else { fill(9); }
     rect(leftx, topy, wide, high, 5);
-    buttonIcons[ spinnerTypes.keys.indexOf(key) ].updateIcon();
+    spinnerTypes.buttonIcon(key, leftx, topy, wide, high);
   }
 
 }
