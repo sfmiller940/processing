@@ -200,39 +200,39 @@ class Spinners{
   }
 
   void update(){
+    float R, theta;
+    int filler;
     colorMode(HSB, (ballCount - 1) );
     float midRadius = outerRadius * ( 0.5 - ( 0.5 * cos( 2 * TWO_PI * ( percent - offset) ) ) );
-    for (int ring=0; ring < ringCount; ring++){
+    if (key == "spiro1"){
       for (int ball=0; ball < ballCount; ball++){
-        float R, theta;
-        int filler;
-        if (key == "spiro1"){
-          for (int ball=0; ball < ballCount; ball++){
-            theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 8 * (percent - offset)) );
-            float smallRadius = ( outerRadius / 2 ) - ( ((float)1/6) * outerRadius * ( 0.5 - (0.5 * cos( TWO_PI * (percent - offset) ))) );
-            theta = theta * (smallRadius / (outerRadius - smallRadius));
-            float radD = 2 * smallRadius;
-            fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
-            float X = ( ( (outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
-            float Y = ( ( (outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
-            float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / outerRadius);
-            ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
-          }
-        }
-        else if (key == "spiro2"){
-          for (int ball=0; ball < ballCount; ball++){
-            theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 8 * (percent - offset)) );
-            float smallRadius = ( outerRadius / 2 ) + ( ((float)1/6) * outerRadius * ( 0.5 - (0.5 * cos( TWO_PI * (percent - offset) ))) );
-            theta = theta * (smallRadius / (outerRadius - smallRadius));
-            float radD = 2 * smallRadius;
-            fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
-            float X = ( ( (outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
-            float Y = ( ( (outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
-            float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / outerRadius);
-            ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
-          }
-        }
-        else{
+        theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 8 * (percent - offset)) );
+        float smallRadius = ( outerRadius / 2 ) - ( ((float)1/6) * outerRadius * ( 0.5 - (0.5 * cos( TWO_PI * (percent - offset) ))) );
+        theta = theta * (smallRadius / (outerRadius - smallRadius));
+        float radD = 2 * smallRadius;
+        fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+        float X = ( ( (outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
+        float Y = ( ( (outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
+        float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / outerRadius);
+        ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
+      }
+    }
+    else if (key == "spiro2"){
+      for (int ball=0; ball < ballCount; ball++){
+        theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 8 * (percent - offset)) );
+        float smallRadius = ( outerRadius / 2 ) + ( ((float)1/6) * outerRadius * ( 0.5 - (0.5 * cos( TWO_PI * (percent - offset) ))) );
+        theta = theta * (smallRadius / (outerRadius - smallRadius));
+        float radD = 2 * smallRadius;
+        fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+        float X = ( ( (outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
+        float Y = ( ( (outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
+        float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / outerRadius);
+        ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
+      }
+    }
+    else{
+      for (int ring=0; ring < ringCount; ring++){
+        for (int ball=0; ball < ballCount; ball++){
           switch (key) {
             case "wheels":
               R = innerRadius + ( (midRadius - innerRadius) *  ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
