@@ -69,7 +69,7 @@ void mouseReleased(){
 
 // Class for different spinner types.
 class spinnerTypesClass{
-  String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "fireworks"};
+  String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "spiro1", "fireworks"};
 
   void buttonIcon( String key, int leftx, int topy, int wide, int high ){
     switch (key) {
@@ -103,6 +103,20 @@ class spinnerTypesClass{
         for(int i=0; i<40; i++){
           fill(i%20, 20, 20);
           ellipse( leftx + (wide / 2 ) + ( ( 9 + (2 * cos(TWO_PI * i / 40) ) ) * sin(6 * TWO_PI * i /40) ), topy + (high / 2  ) +  ( ( 9 + (2 * cos(TWO_PI * i / 40) ) )  *  cos(6 * TWO_PI * i /40) ), 2, 2 );
+        }
+        break;
+      case "spiro1":
+        colorMode(HSB, 20 );
+        for (int ball=0; ball < 20; ball++){
+          theta = TWO_PI * 6 * (float)ball  / 20;
+          float outerRadius = 9;
+          float smallRadius = 3;
+          theta = theta * (smallRadius / (outerRadius - smallRadius));
+          float radD = 2 * smallRadius;
+          fill( ball, 20 , 20 );
+          float X = ( ( (outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
+          float Y = ( ( (outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
+          ellipse(   leftx + (wide / 2 ) + X, topy + (high / 2  ) +  Y,2,2);
         }
         break;
       case "fireworks":
@@ -154,6 +168,10 @@ class Spinners{
         ringCount = 71;
         ballCount = 71;
         break;
+      case "spiro1":
+        ringCount = 1;
+        ballCount = 2400;
+        break;
     }
   }
   
@@ -168,52 +186,60 @@ class Spinners{
       for (int ball=0; ball < ballCount; ball++){
         float R, theta;
         int filler;
-        switch (key) {
-          case "wheels":
-            R = innerRadius + ( (midRadius - innerRadius) *  ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
-            theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 3 * ( percent - offset)) );
-            filler = ball;
-            break;
-          case "wheelsEye":
-            R = midRadius + ( (outerRadius - midRadius) * ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
-            theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 4 * ( percent - offset )) );
-            filler = ball;
-            break;
-          case "fireworks":
-            theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
-            R = midRadius * sin ( 4 * theta ) * (ring+1) / ringCount;
-            theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
-            theta = (1 - ( 2* (ring % 2) )) * theta;
-            filler = ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount );
-            break;
-          case "flowers":
-            theta = TWO_PI * ( percent + (ball / ballCount ) );
-            R = midRadius  * (0.5 + ( 0.5 * cos( theta) ) )  ;
-            theta = theta +  (TWO_PI * ( percent + ( (ring+1) / ringCount) + ( (ball+1) / ballCount) ) );
-            int ringsign = (1 - ( 2* (ring % 2) ));
-            theta = ringsign * theta;
-            filler = ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount );
-            break;
-          case "flowersEye":
-            theta = TWO_PI * ( percent + (ball / ballCount ) );
-            R = midRadius + ( ( outerRadius - midRadius ) * (0.5 + ( 0.5 * cos( theta) ) ) ) ;
-            theta = theta +  (TWO_PI * ( percent + ( (ring+1) / ringCount) + ( (ball+1) / ballCount) ) );
-            int ringsign = (1 - ( 2* (ring % 2) ));
-            theta = ringsign * theta;
-            filler = ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount );
-            break;
-          case "fireworks":
-            theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
-            R = midRadius * sin ( 4 * theta ) * (ring+1) / ringCount;
-            theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
-            theta = (1 - ( 2* (ring % 2) )) * theta;
-            filler = ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount );
-            break;
+        if (key == "spiro1"){
+          for (int ball=0; ball < ballCount; ball++){
+            theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 8 * percent) );
+            float smallRadius = ( outerRadius / 2 ) - ( ((float)1/6) * outerRadius* ( 0.5 - (0.5 * cos( TWO_PI * percent ))) );
+            theta = theta * (smallRadius / (outerRadius - smallRadius));
+            float radD = 2 * smallRadius;
+            fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+            float X = ( ( (outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
+            float Y = ( ( (outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
+            float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / outerRadius);
+            ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
+          }
         }
-        fill( (filler + colorOffset) % ballCount , ballCount, ballCount  );
-        float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / maxRadius);
-        if (reverse){ theta = -theta; }
-        ellipse( ( Xcenter + ( R * sin( theta ) ) ),( Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
+        else{
+          switch (key) {
+            case "wheels":
+              R = innerRadius + ( (midRadius - innerRadius) *  ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
+              theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 3 * ( percent - offset)) );
+              filler = ball;
+              break;
+            case "wheelsEye":
+              R = midRadius + ( (outerRadius - midRadius) * ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent - offset + ((float)ring / ringCount) ) ) ) ) ) );
+              theta = TWO_PI * ( ((float)ball  / ballCount) + ( (float)ring / ringCount ) + ( 4 * ( percent - offset )) );
+              filler = ball;
+              break;
+            case "flowers":
+              theta = TWO_PI * ( percent + (ball / ballCount ) );
+              R = midRadius  * (0.5 + ( 0.5 * cos( theta) ) )  ;
+              theta = theta +  (TWO_PI * ( percent + ( (ring+1) / ringCount) + ( (ball+1) / ballCount) ) );
+              int ringsign = (1 - ( 2* (ring % 2) ));
+              theta = ringsign * theta;
+              filler = ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount );
+              break;
+            case "flowersEye":
+              theta = TWO_PI * ( percent + (ball / ballCount ) );
+              R = midRadius + ( ( outerRadius - midRadius ) * (0.5 + ( 0.5 * cos( theta) ) ) ) ;
+              theta = theta +  (TWO_PI * ( percent + ( (ring+1) / ringCount) + ( (ball+1) / ballCount) ) );
+              int ringsign = (1 - ( 2* (ring % 2) ));
+              theta = ringsign * theta;
+              filler = ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount );
+              break;
+            case "fireworks":
+              theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
+              R = midRadius * sin ( 4 * theta ) * (ring+1) / ringCount;
+              theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / ringCount );
+              theta = (1 - ( 2* (ring % 2) )) * theta;
+              filler = ( ( ballCount * ( abs((R / maxRadius) - (2 * percent)))) % ballCount );
+              break;
+          }
+          fill( (filler + colorOffset) % ballCount , ballCount, ballCount  );
+          float ballsize = ballRadiusMin + abs(ballRadiusDelta * R / maxRadius);
+          if (reverse){ theta = -theta; }
+          ellipse( ( Xcenter + ( R * sin( theta ) ) ),( Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
+        }
       }
     }
   }
