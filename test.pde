@@ -178,7 +178,7 @@ class Spinners{
   String key;
   boolean reverse;
   float Xcenter, Ycenter, innerRadius, outerRadius, offset;
-  int ringCount = 31;
+  int ringCount = 37;
   int ballCount = 47;
   int ballRadiusMin = 2;
   int ballRadiusDelta=16;
@@ -230,7 +230,7 @@ class Spinners{
   void update(){
     float R, theta;
     int filler;
-    colorMode(HSB, (ballCount - 1) );
+    colorMode(HSB, ballCount  );
     float midRadius = outerRadius * ( 0.5 - ( 0.5 * cos( 2 * TWO_PI * ( percent - offset) ) ) );
     if (key == "spiro1"){
       for (int ball=0; ball < ballCount; ball++){
@@ -308,15 +308,15 @@ class Spinners{
               theta = theta +  (TWO_PI * ( percent + ( (ring+1) / ringCount) + ( (ball+1) / ballCount) ) );
               int ringsign = (1 - ( 2* (ring % 2) ));
               theta = ringsign * theta;
-              filler = ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount );
+              filler = ( ( ballCount * ( abs((R / (2*(outerRadius+1))) +(ring/(2*ringCount))+ ( ringsign * percent)))) % ballCount );
               break;
             case "flowersEye":
               theta = TWO_PI * ( percent + (ball / ballCount ) );
               R = midRadius + ( ( outerRadius - midRadius ) * (0.5 + ( 0.5 * cos( theta) ) ) ) ;
               theta = theta +  (TWO_PI * ( percent + ( (ring+1) / ringCount) + ( (ball+1) / ballCount) ) );
-              int ringsign = (1 - ( 2* (ring % 2) ));
+              int ringsign = (1 - ( 2 * (ring % 2) ));
               theta = ringsign * theta;
-              filler = ( ( ballCount * ( abs((R / maxRadius) + ( ringsign * percent)))) % ballCount );
+              filler = ( ( ballCount * ( abs((R / (2*(outerRadius+1))) +(ring/(2*ringCount))+ ( ringsign * percent)))) % ballCount );
               break;
             case "fireworks":
               theta = TWO_PI * ( ((float)ball  / ballCount) + ( percent) );
