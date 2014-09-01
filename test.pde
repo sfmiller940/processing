@@ -198,12 +198,12 @@ class Spinners{
         break;
       case "flowers":
         ringCount = 16;
-        ballCount = 101;
+        ballCount = 137;
         break;
       case "flowersEye":
         offset += 0.25;
         ringCount = 16;
-        ballCount = 101;
+        ballCount = 137;
         break;
       case "fireworks":
         ringCount = 71;
