@@ -6,7 +6,7 @@
 
 // Global variables
 int frames=1000;
-float maxRadius = 300;
+float maxRadius = 400;
 int Xclick;
 int Yclick;
 float percent=0;
@@ -69,7 +69,7 @@ void mouseReleased(){
 
 // Class for different spinner types.
 class spinnerTypesClass{
-  String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "spiro1", "spiro2", "fireworks"};
+  String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "spiro1", "spiro2", "spiro3", "spiro4", "fireworks"};
 
   void buttonIcon( String key, int leftx, int topy, int wide, int high ){
     switch (key) {
@@ -133,6 +133,34 @@ class spinnerTypesClass{
           ellipse(   leftx + (wide / 2 ) + X, topy + (high / 2  ) +  Y,2,2);
         }
         break;
+      case "spiro3":
+        colorMode(HSB, 30 );
+        for (int ball=0; ball < 30; ball++){
+          theta =  TWO_PI * (float)ball  / 30;
+          float outerRadius = 4;
+          float smallRadius = 2;
+          theta = theta * (smallRadius / (outerRadius - smallRadius));
+          float radD = 2 * smallRadius;
+          float X = ( ( (outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (outerRadius + smallRadius) / smallRadius  ) ) );
+          float Y = ( ( (outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius + smallRadius) / smallRadius  ) ) );
+          fill( ball, 30 , 30 );
+          ellipse(   leftx + (wide / 2 ) + X, topy + (high / 2  ) +  Y,2,2);
+        }
+        break;
+      case "spiro4":
+        colorMode(HSB, 30 );
+        for (int ball=0; ball < 30; ball++){
+          theta =  2 * TWO_PI * (float)ball  / 30;
+          float outerRadius = 3;
+          float smallRadius = 2;
+          theta = theta * (smallRadius / (outerRadius - smallRadius));
+          float radD = 2 * smallRadius;
+          float X = ( ( (outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (outerRadius + smallRadius) / smallRadius  ) ) );
+          float Y = ( ( (outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius + smallRadius) / smallRadius  ) ) );
+          fill( ball, 30 , 30 );
+          ellipse(   leftx + (wide / 2 ) + X, topy + (high / 2  ) +  Y,2,2);
+        }
+        break;
       case "fireworks":
         colorMode(HSB, 20 );
         for(int i=0; i<20; i++){
@@ -153,7 +181,7 @@ class Spinners{
   int ringCount = 31;
   int ballCount = 47;
   int ballRadiusMin = 2;
-  int ballRadiusDelta=14;
+  int ballRadiusDelta=16;
   int colorOffset;
 
   Spinners(String S, float X, float Y, float I, float O, float OF, boolean R){
@@ -181,15 +209,15 @@ class Spinners{
         ringCount = 71;
         ballCount = 71;
         break;
-      case "spiro1":
+      case "spiro1": case "spiro2":
         ringCount = 1;
         ballCount = 2400;
         offset += 0.25;
         break;
-      case "spiro2":
-        offset += 0.25;
+      case "spiro4": case "spiro3":
         ringCount = 1;
         ballCount = 2400;
+        offset += 0.25;
         break;
     }
     colorOffset = (int)random(ballCount);
@@ -210,10 +238,11 @@ class Spinners{
         float smallRadius = ( outerRadius / 2 ) - ( ((float)1/6) * outerRadius * ( 0.5 - (0.5 * cos( TWO_PI * (percent - offset) ))) );
         theta = theta * (smallRadius / (outerRadius - smallRadius));
         float radD = 2 * smallRadius;
-        fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+        if (reverse){ theta = -theta; }
         float X = ( ( (outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
         float Y = ( ( (outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
-        float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / outerRadius);
+        fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+        float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
         ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
       }
     }
@@ -223,10 +252,39 @@ class Spinners{
         float smallRadius = ( outerRadius / 2 ) + ( ((float)1/6) * outerRadius * ( 0.5 - (0.5 * cos( TWO_PI * (percent - offset) ))) );
         theta = theta * (smallRadius / (outerRadius - smallRadius));
         float radD = 2 * smallRadius;
-        fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+        if (reverse){ theta = -theta; }
         float X = ( ( (outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
         float Y = ( ( (outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius - smallRadius) / smallRadius  ) ) );
-        float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / outerRadius);
+        fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+        float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
+        ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
+      }
+    }
+    else if (key == "spiro3"){
+      for (int ball=0; ball < ballCount; ball++){
+        theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 8 * (percent - offset)) );
+        float smallRadius = ( outerRadius / 2 ) - ( ((float)1/6) * outerRadius * ( 0.5 - (0.5 * cos( TWO_PI * (percent - offset) ))) );
+        theta = theta * (smallRadius / (outerRadius - smallRadius));
+        float radD = 2 * smallRadius;
+        if (reverse){ theta = -theta; }
+        float X = ( ( (outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (outerRadius + smallRadius) / smallRadius  ) ) );
+        float Y = ( ( (outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius + smallRadius) / smallRadius  ) ) );
+        fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+        float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
+        ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
+      }
+    }
+    else if (key == "spiro4"){
+      for (int ball=0; ball < ballCount; ball++){
+        theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 8 * (percent - offset)) );
+        float smallRadius = ( outerRadius * 2 / 3 ) + ( ((float)1/12) * outerRadius * ( 0.5 - (0.5 * cos( TWO_PI * (percent - offset) ))) );
+        theta = theta * (smallRadius / (outerRadius - smallRadius));
+        float radD = 2 * smallRadius;
+        if (reverse){ theta = -theta; }
+        float X = ( ( (outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (outerRadius + smallRadius) / smallRadius  ) ) );
+        float Y = ( ( (outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (outerRadius + smallRadius) / smallRadius  ) ) );
+        fill( ((ball + colorOffset) % (ballCount+1)), ballCount , ballCount );
+        float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
         ellipse(  Xcenter + X, Ycenter + Y,ballsize,ballsize);
       }
     }
