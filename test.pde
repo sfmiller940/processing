@@ -122,7 +122,7 @@ class Spinner{
 
 // Class for different spinner types.
 class spinnerTypesClass{
-  String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "spiro1", "spiro2", "spiro3", "spiro4",  "fireworks"};
+  String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "spiro1", "spiro2"};//, "spiro3", "spiro4",  "fireworks"};
 
   // Heavy lifting.
   void update( Spinner sp){
@@ -412,7 +412,7 @@ class mainMenuClass{
   mainMenuClass(){
     int i=0;
     for (String key : spinnerTypes.keys){
-      allButtons.add( new buttonClass(key, ( leftx + ( 33 * (i % 2) ) ), ( topy + (33 * (int)(i / 2) ) + (4 * (int)(i / 4) ) ) ) );
+      allButtons.add( new buttonClass(key, ( leftx + ( 33 * (i % 2) ) ), ( topy + (33 * (int)(i / 2) ) ) ) );
       i++;
     }
   }
