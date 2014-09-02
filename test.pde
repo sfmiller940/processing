@@ -54,7 +54,7 @@ void mousePressed() {
 }
 
 void mouseDragged(){
-  if (! isMenu){ allSpinners.get( allSpinners.size() - 1  ).updateRadius( ( 2 * dist(Xclick, Yclick, mouseX, mouseY) ) );}
+  if (! isMenu){ allSpinners.get( allSpinners.size() - 1  ).outerRadius = 2 * dist(Xclick, Yclick, mouseX, mouseY);}
 }
 
 void mouseReleased(){
@@ -115,9 +115,6 @@ class Spinner{
     colorOffset = (int)random(ballCount);
   }
   
-  void updateRadius( float newRadius){
-    outerRadius = newRadius;
-  }
 }
 
 // Class for different spinner types.
