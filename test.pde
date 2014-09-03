@@ -92,8 +92,8 @@ class Spinner{
         break;
       case "flowers":
         offset -= 0.25;
-        ringCount = 16;
-        ballCount = 137;
+        ringCount = 24;
+        ballCount = 89;
         break;
       case "flowersEye":
         ringCount = 16;
@@ -218,11 +218,10 @@ class spinnerTypesClass{
         float midRadius = sp.outerRadius * ( 0.5 - ( 0.5 * cos( 2 * TWO_PI * percent ) ) );
         for (int ball=0; ball < sp.ballCount; ball++){
           for (int ring=0; ring < sp.ringCount; ring++){
-            theta = TWO_PI * ( percent + (ball / sp.ballCount ) );
-            float R = midRadius  * (0.5 + ( 0.5 * cos( theta) ) )  ;
-            theta = theta +  (TWO_PI * ( percent + ( (ring+1) / sp.ringCount) + ( (ball+1) / sp.ballCount) ) );
             int ringsign = (1 - ( 2* (ring % 2) ));
-            theta *= ringsign;
+            theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
+            float R = midRadius  * (0.5 + ( 0.5 * cos(theta) ) )  ;
+            theta +=  (ringsign * TWO_PI * ( percent + ( (ring+1) / sp.ringCount) ) );
             int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
             float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
