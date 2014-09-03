@@ -1,3 +1,4 @@
+
 /*
 /
 / Global variables, setup() and draw()
@@ -14,7 +15,7 @@ boolean rev = false;
 spinnerTypesClass spinnerTypes = new spinnerTypesClass();
 mainMenuClass mainMenu = new mainMenuClass();
 ArrayList<Spinner> allSpinners = new ArrayList<Spinner>();
-String activeSpin = "wheels";
+String activeSpin = "flowers";
 boolean isMenu = false;
 
 // Setup
@@ -119,7 +120,7 @@ class Spinner{
 
 // Class for different spinner types.
 class spinnerTypesClass{
-  String[] keys = {"wheels", "wheelsEye", "flowers", "flowersEye", "spiro1", "spiro2"};//, "spiro3", "spiro4",  "fireworks"};
+  String[] keys = {"flowers", "flowersEye", "spiro1", "spiro2", "wheels", "wheelsEye"};//, "spiro3", "spiro4",  "fireworks"};
 
   // Heavy lifting.
   void update( Spinner sp){
@@ -221,11 +222,10 @@ class spinnerTypesClass{
             float R = midRadius  * (0.5 + ( 0.5 * cos( theta) ) )  ;
             theta = theta +  (TWO_PI * ( percent + ( (ring+1) / sp.ringCount) + ( (ball+1) / sp.ballCount) ) );
             int ringsign = (1 - ( 2* (ring % 2) ));
-            theta = ringsign * theta;
+            theta *= ringsign;
             int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
             float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
-            if (sp.reverse){ theta = -theta; }
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
           }
         }
@@ -237,12 +237,11 @@ class spinnerTypesClass{
             theta = TWO_PI * ( percent + (ball / sp.ballCount ) );
             float R = midRadius + ( ( sp.outerRadius - midRadius ) * (0.5 + ( 0.5 * cos( theta ) ) ) ) ;
             theta = theta +  (TWO_PI * ( percent + ( (ring+1) / sp.ringCount) + ( (ball+1) / sp.ballCount) ) );
-            int ringsign = (1 - ( 2 * (ring % 2) ));
-            theta = ringsign * theta;
+            int ringsign = (1 - ( 2* (ring % 2) ));
+            theta *= ringsign;
             int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
             float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
-            if (sp.reverse){ theta = -theta; }
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
           }
         }
