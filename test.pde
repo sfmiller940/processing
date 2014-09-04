@@ -72,8 +72,8 @@ class Spinner{
   String key;
   boolean reverse;
   float Xcenter, Ycenter, outerRadius, offset;
-  int ringCount = 37;
-  int ballCount = 47;
+  int ringCount = 47;
+  int ballCount = 53;
   int ballRadiusMin = 2;
   float ballRadiusDelta=0.035;
   int colorOffset;
