@@ -7,7 +7,6 @@
 
 // Global variables
 int frames=1000;
-float maxRadius = 400;
 int Xclick;
 int Yclick;
 float percent=0;
@@ -76,7 +75,7 @@ class Spinner{
   int ringCount = 37;
   int ballCount = 47;
   int ballRadiusMin = 2;
-  int ballRadiusDelta=16;
+  float ballRadiusDelta=0.035;
   int colorOffset;
 
   Spinner(String S, float X, float Y, float O,  boolean R){
@@ -140,7 +139,7 @@ class spinnerTypesClass{
           float X = ( ( (sp.outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
           fill( ((ball + sp.colorOffset) % (sp.ballCount+1)), sp.ballCount , sp.ballCount );
-          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
+          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) );
           ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
         break;
@@ -155,7 +154,7 @@ class spinnerTypesClass{
           float X = ( ( (sp.outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
           fill( ((18*(ball + sp.colorOffset)) % (sp.ballCount+1)), sp.ballCount , sp.ballCount );
-          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
+          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) );
           ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
         break;
@@ -169,7 +168,7 @@ class spinnerTypesClass{
           float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
           fill( (24 * ball) % sp.ballCount, sp.ballCount , sp.ballCount );
-          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
+          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) );
           ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
         break;
@@ -184,7 +183,7 @@ class spinnerTypesClass{
           float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
           fill( (18 * ball) % sp.ballCount, sp.ballCount , sp.ballCount );
-          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
+          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) );
           ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
         break;
@@ -195,7 +194,7 @@ class spinnerTypesClass{
             float R = midRadius  *  ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent + ((float)ring / sp.ringCount) ) ) ) ) ) ;
             theta = TWO_PI * ( ((float)ball  / sp.ballCount) + ( (float)ring / sp.ringCount ) + ( 3 * percent) );
             fill( (ball + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
-            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
+            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
             if (sp.reverse){ theta = -theta; }
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
           }
@@ -208,7 +207,7 @@ class spinnerTypesClass{
             float R = midRadius + ( (sp.outerRadius - midRadius) * ( 0.5 + ( 0.5 * cos( ( TWO_PI * ( percent + ((float)ring / sp.ringCount) ) ) ) ) ) );
             theta = TWO_PI * ( ((float)ball  / sp.ballCount) + ( (float)ring / sp.ringCount ) + ( 4 * ( percent )) );
             fill( (ball + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
-            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
+            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
             if (sp.reverse){ theta = -theta; }
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
           }
@@ -224,7 +223,7 @@ class spinnerTypesClass{
             theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
             int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
-            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
+            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
           }
         }
@@ -239,7 +238,7 @@ class spinnerTypesClass{
             theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
             int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
-            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
+            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
           }
         }
@@ -252,9 +251,9 @@ class spinnerTypesClass{
             float R = midRadius * sin ( 4 * theta ) * (ring+1) / sp.ringCount;
             theta = theta + ( TWO_PI * percent ) + (TWO_PI * ring / sp.ringCount );
             theta = (1 - ( 2* (ring % 2) )) * theta;
-            int filler = ( ( sp.ballCount * ( abs((R / maxRadius) - (2 * percent)))) % sp.ballCount );
+            int filler = ( ( sp.ballCount * ( abs((R * ballRadiusDelta ) - (2 * percent)))) % sp.ballCount );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
-            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
+            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
             if (sp.reverse){ theta = -theta; }
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
           }
