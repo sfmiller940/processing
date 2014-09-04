@@ -221,7 +221,7 @@ class spinnerTypesClass{
             int ringsign = (1 - ( 2* (ring % 2) ));
             theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
             float R = midRadius  * (0.5 + ( 0.5 * cos(theta) ) )  ;
-            theta +=  TWO_PI * ( (ringsign * percent) + ( (ring+1) / sp.ringCount) );
+            theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
             int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
             float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
@@ -236,7 +236,7 @@ class spinnerTypesClass{
             int ringsign = (1 - ( 2* (ring % 2) ));
             theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
             float R = midRadius + ( ( sp.outerRadius - midRadius ) * (0.5 + ( 0.5 * cos( theta ) ) ) ) ;
-            theta +=  TWO_PI * ( (ringsign * percent) + ( (ring+1) / sp.ringCount) );
+            theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
             int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
             float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R / maxRadius);
