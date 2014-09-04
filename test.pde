@@ -110,7 +110,7 @@ class Spinner{
         break;
       case "spiro4": case "spiro3":
         ringCount = 1;
-        ballCount = 2400;
+        ballCount = 1800;
         break;
     }
     colorOffset = (int)random(ballCount);
@@ -148,13 +148,13 @@ class spinnerTypesClass{
         float gamma = 0.5 - (0.5 * cos( TWO_PI * percent ));
         float epsilon = 0.5 + (0.5 * cos( 2 * TWO_PI * percent ));
         for (int ball=0; ball < sp.ballCount; ball++){
-          theta = 24 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
+          theta = 18 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
           float smallRadius = ( sp.outerRadius * 2 / 3 ) - ( ((float)1/3) * sp.outerRadius * gamma );
           float radD = 2 * smallRadius * epsilon;
           if (sp.reverse){ theta = -theta; }
           float X = ( ( (sp.outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
-          fill( ((ball + sp.colorOffset) % (sp.ballCount+1)), sp.ballCount , sp.ballCount );
+          fill( ((18*(ball + sp.colorOffset)) % (sp.ballCount+1)), sp.ballCount , sp.ballCount );
           float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
           ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
@@ -168,7 +168,7 @@ class spinnerTypesClass{
           if (sp.reverse){ theta = -theta; }
           float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
-          fill( ((ball + sp.colorOffset) % (sp.ballCount+1)), sp.ballCount , sp.ballCount );
+          fill( (24 * ball) % sp.ballCount, sp.ballCount , sp.ballCount );
           float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
           ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
@@ -177,13 +177,13 @@ class spinnerTypesClass{
         float gamma = 0.5 - (0.5 * cos( TWO_PI * percent ));
         float epsilon = 0.5 + (0.5 * cos( 2 * TWO_PI * percent ));
         for (int ball=0; ball < sp.ballCount; ball++){
-          theta = 24 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
+          theta = 18 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
           float smallRadius = ( sp.outerRadius * 2/ 3 ) + ( ((float)1/12) * sp.outerRadius * gamma );
           float radD = 2 * smallRadius * epsilon;
           if (sp.reverse){ theta = -theta; }
           float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
-          fill( ((ball + sp.colorOffset) % (sp.ballCount+1)), sp.ballCount , sp.ballCount );
+          fill( (18 * ball) % sp.ballCount, sp.ballCount , sp.ballCount );
           float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
           ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
