@@ -164,7 +164,7 @@ class spinnerTypesClass{
         float epsilon = 0.5 + (0.5 * cos( 2 * TWO_PI * percent ));
         for (int ball=0; ball < sp.ballCount; ball++){
           theta = 18 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
-          float smallRadius = sp.outerRadius * ( (  (float) 2 / 3 ) - (  gamma / 3 ));
+          float smallRadius = sp.outerRadius *  (2 - gamma) / 3;
           float radD = 2 * smallRadius * epsilon;
           if (sp.reverse){ theta = -theta; }
           float X = ( ( (sp.outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
@@ -179,8 +179,8 @@ class spinnerTypesClass{
         float epsilon = 0.5 + (0.5 * cos( 2 * TWO_PI * percent ));
         for (int ball=0; ball < sp.ballCount; ball++){
           theta = 18 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
-          float smallRadius = sp.outerRadius * ( ((float)3 / 4 ) + ( gamma / 2 ) );
-          float radD = 2.33333 * smallRadius * epsilon;
+          float smallRadius = sp.outerRadius * 0.333 * ( 4 + (  gamma ) );
+          float radD = 1.75 * smallRadius * epsilon;
           if (sp.reverse){ theta = -theta; }
           float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
