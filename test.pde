@@ -129,18 +129,34 @@ class spinnerTypesClass{
     float theta;
     
     switch(sp.key){
-      case "spiro3":
-        float gamma = 0.5 - (0.5 * cos( TWO_PI * percent ));
+      case "flowers":
+        float midRadius = sp.outerRadius * ( 0.5 - ( 0.5 * cos( 2 * TWO_PI * percent ) ) );
         for (int ball=0; ball < sp.ballCount; ball++){
-          theta = 24 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
-          float smallRadius = ( sp.outerRadius / 2 ) - ( ((float)1/6) * sp.outerRadius * gamma );
-          float radD = 2 * smallRadius * gamma;
-          if (sp.reverse){ theta = -theta; }
-          float X = ( ( (sp.outerRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
-          float Y = ( ( (sp.outerRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius - smallRadius) / smallRadius  ) ) );
-          fill( ((ball + sp.colorOffset) % (sp.ballCount+1)), sp.ballCount , sp.ballCount );
-          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) );
-          ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
+          for (int ring=0; ring < sp.ringCount; ring++){
+            int ringsign = (1 - ( 2* (ring % 2) ));
+            theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
+            float R = midRadius  * (0.5 + ( 0.5 * cos(theta) ) )  ;
+            theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
+            int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
+            fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
+            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
+            ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
+          }
+        }
+        break;
+      case "flowersEye":
+        float midRadius = sp.outerRadius * ( 0.5 - ( 0.5 * cos( 2 * TWO_PI * percent ) ) );
+        for (int ball=0; ball < sp.ballCount; ball++){
+          for (int ring=0; ring < sp.ringCount; ring++){
+            int ringsign = (1 - ( 2* (ring % 2) ));
+            theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
+            float R = midRadius + ( ( sp.outerRadius - midRadius ) * (0.5 + ( 0.5 * cos( theta ) ) ) ) ;
+            theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
+            int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
+            fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
+            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
+            ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
+          }
         }
         break;
       case "spiro1":
@@ -158,27 +174,13 @@ class spinnerTypesClass{
           ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
         break;
-      case "spiro4":
-        float gamma = 0.5 - (0.5 * cos( TWO_PI * percent ));
-        for (int ball=0; ball < sp.ballCount; ball++){
-          theta = 24 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
-          float smallRadius = ( sp.outerRadius / 2 ) - ( ((float)1/6) * sp.outerRadius * gamma );
-          float radD = 2 * smallRadius * gamma;
-          if (sp.reverse){ theta = -theta; }
-          float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
-          float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
-          fill( (24 * ball) % sp.ballCount, sp.ballCount , sp.ballCount );
-          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) );
-          ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
-        }
-        break;
       case "spiro2":
         float gamma = 0.5 - (0.5 * cos( TWO_PI * percent ));
         float epsilon = 0.5 + (0.5 * cos( 2 * TWO_PI * percent ));
         for (int ball=0; ball < sp.ballCount; ball++){
           theta = 18 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
-          float smallRadius = ( sp.outerRadius * 2/ 3 ) + ( ((float)1/12) * sp.outerRadius * gamma );
-          float radD = 2 * smallRadius * epsilon;
+          float smallRadius = ( sp.outerRadius * 2 / 3 ) + ( ((float)1/12) * sp.outerRadius * gamma );
+          float radD = 3 * smallRadius * epsilon;
           if (sp.reverse){ theta = -theta; }
           float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
           float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
@@ -213,34 +215,33 @@ class spinnerTypesClass{
           }
         }
         break;
-      case "flowers":
-        float midRadius = sp.outerRadius * ( 0.5 - ( 0.5 * cos( 2 * TWO_PI * percent ) ) );
+      case "spiro3":
+        float gamma = 0.5 - (0.5 * cos( TWO_PI * percent ));
+        float epsilon = 0.5 + (0.5 * cos( 2 * TWO_PI * percent ));
         for (int ball=0; ball < sp.ballCount; ball++){
-          for (int ring=0; ring < sp.ringCount; ring++){
-            int ringsign = (1 - ( 2* (ring % 2) ));
-            theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
-            float R = midRadius  * (0.5 + ( 0.5 * cos(theta) ) )  ;
-            theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
-            int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
-            fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
-            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
-            ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
-          }
+          theta = 18 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
+          float smallRadius = ( sp.outerRadius * 2 / 3 ) + ( ((float)1/12) * sp.outerRadius * gamma );
+          float radD = 3 * smallRadius * epsilon;
+          if (sp.reverse){ theta = -theta; }
+          float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
+          float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
+          fill( (18 * ball) % sp.ballCount, sp.ballCount , sp.ballCount );
+          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) );
+          ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
         break;
-      case "flowersEye":
-        float midRadius = sp.outerRadius * ( 0.5 - ( 0.5 * cos( 2 * TWO_PI * percent ) ) );
+      case "spiro4":
+        float gamma = 0.5 - (0.5 * cos( TWO_PI * percent ));
         for (int ball=0; ball < sp.ballCount; ball++){
-          for (int ring=0; ring < sp.ringCount; ring++){
-            int ringsign = (1 - ( 2* (ring % 2) ));
-            theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
-            float R = midRadius + ( ( sp.outerRadius - midRadius ) * (0.5 + ( 0.5 * cos( theta ) ) ) ) ;
-            theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
-            int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
-            fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
-            float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
-            ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
-          }
+          theta = 24 * TWO_PI * ( ((float)ball  / sp.ballCount) + ( 8 * percent) );
+          float smallRadius = ( sp.outerRadius / 2 ) - ( ((float)1/6) * sp.outerRadius * gamma );
+          float radD = 2 * smallRadius * gamma;
+          if (sp.reverse){ theta = -theta; }
+          float X = ( ( (sp.outerRadius + smallRadius) * cos( theta ) ) - ( radD * cos( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
+          float Y = ( ( (sp.outerRadius + smallRadius) * sin( theta ) ) - ( radD * sin( theta * (sp.outerRadius + smallRadius) / smallRadius  ) ) );
+          fill( (24 * ball) % sp.ballCount, sp.ballCount , sp.ballCount );
+          float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * dist(0,0,X,Y) );
+          ellipse(  sp.Xcenter + X, sp.Ycenter + Y,ballsize,ballsize);
         }
         break;
       case "fireworks":
