@@ -7,15 +7,15 @@
 
 // Global variables
 int frames=1000;
+String activeSpin = "flowers";
 int Xclick;
 int Yclick;
 float percent=0;
 boolean rev = false;
+boolean isMenu = false;
 spinnerTypesClass spinnerTypes = new spinnerTypesClass();
 mainMenuClass mainMenu = new mainMenuClass();
 ArrayList<Spinner> allSpinners = new ArrayList<Spinner>();
-String activeSpin = "flowers";
-boolean isMenu = false;
 
 // Setup
 void setup()
@@ -137,7 +137,7 @@ class spinnerTypesClass{
             theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
             float R = midRadius  * (0.5 + ( 0.5 * cos(theta) ) )  ;
             theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
-            int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
+            int filler =  sp.ballCount * ( (R / (midRadius+1) ) + ( ring / ( sp.ringCount) ) + ( 2 * percent) );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
             float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
@@ -152,7 +152,7 @@ class spinnerTypesClass{
             theta =  ringsign * TWO_PI * ( percent + (ball / sp.ballCount ) );
             float R = midRadius + ( ( sp.outerRadius - midRadius ) * (0.5 + ( 0.5 * cos( theta ) ) ) ) ;
             theta +=  TWO_PI * ( (2 * ringsign * percent) + ( (ring+1) / sp.ringCount) );
-            int filler = ( ( sp.ballCount * ( abs((R / (2*(sp.outerRadius+1))) +(ring/(2*sp.ringCount))+ ( ringsign * percent)))) % sp.ballCount );
+            int filler =  sp.ballCount * ( (R / (sp.outerRadius+1) ) + ( ring / ( sp.ringCount) ) + ( 2 * percent) );
             fill( (filler + sp.colorOffset) % sp.ballCount , sp.ballCount, sp.ballCount  );
             float ballsize = sp.ballRadiusMin + abs(sp.ballRadiusDelta * R );
             ellipse( ( sp.Xcenter + ( R * sin( theta ) ) ),( sp.Ycenter + ( R * cos( theta ) ) ),ballsize,ballsize);
