@@ -1,12 +1,12 @@
 // General variables
-int frames=1000;
+int frames=1200;
 int boxSize = 500;
 int boxCenter = boxSize/2;
-float maxRadius = 150;
+float maxRadius = 140;
 int ringCount = 24;
-int ballCount = 3600;
+int ballCount = 5200;
 int ballRadiusMin = 2;
-int ballRadiusDelta=6;
+float ballRadiusDelta=0.03;
 float percent=0;
 
 
@@ -22,19 +22,21 @@ void setup()
 
 void draw(){ 
   background(0);
-  percent=(float)( frameCount % frames  )/frames;
-  //for (int ring=ringCount; ring > 0; ring--){
-    for (int ball=0; ball < ballCount; ball++){
-      float theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 8 * percent) );
-      float midRadius = ( maxRadius / 2 ) - ( ((float)1/6) * maxRadius* ( 0.5 - (0.5 * cos( TWO_PI * percent ))) );
-      theta = theta * (midRadius / (maxRadius - midRadius));
-      float radD = 2 * midRadius;
-      fill( ballCount - ball , ballCount , ballCount );
-      float X = ( ( (maxRadius - midRadius) * cos( theta ) ) + ( radD * cos( theta * (maxRadius - midRadius) / midRadius  ) ) );
-      float Y = ( ( (maxRadius - midRadius) * sin( theta ) ) - ( radD * sin( theta * (maxRadius - midRadius) / midRadius  ) ) );
-      float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) / maxRadius);
-      ellipse(  boxCenter + X, boxCenter + Y,ballsize,ballsize);
-    }
-  //}
-  saveFrame("flowers-######.png");
+  percent=(float)( (frameCount + 300) % frames  )/frames;
+  translate( boxCenter, boxCenter );
+  rotate( PI / 6);
+  float gamma = 0.5 - (0.5 * cos( TWO_PI * percent ));
+  float epsilon = 0.5 + (0.5 * cos( 2 * TWO_PI * percent ));
+  float epouterRadius = maxRadius * (2 - epsilon);
+  for (int ball=0; ball < ballCount; ball++){
+    float theta = 24 * TWO_PI * ( ((float)ball  / ballCount) + ( 4 * percent) );
+    float smallRadius = epouterRadius *  (1 + gamma) / 3;
+    float radD = 2 * smallRadius * epsilon;
+    float X = ( ( (epouterRadius - smallRadius) * cos( theta ) ) + ( radD * cos( theta * (epouterRadius - smallRadius) / smallRadius  ) ) );
+    float Y = ( ( (epouterRadius - smallRadius) * sin( theta ) ) - ( radD * sin( theta * (epouterRadius - smallRadius) / smallRadius  ) ) );
+    fill( ( 24 * ball ) % ballCount, ballCount , ballCount );
+    float ballsize = ballRadiusMin + abs(ballRadiusDelta * dist(0,0,X,Y) );
+    ellipse(   X, Y,ballsize,ballsize);
+  }
+  saveFrame("spiro2-######.png");
 }
