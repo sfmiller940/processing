@@ -76,3 +76,8 @@ void draw(){
   }
   updatePixels();
 }
+
+void mouseClicked(){
+  xcenter += ( w * mouseX / width ) - (w/2);
+  ycenter +=  ( h * mouseY / height ) - (h/2);
+}
