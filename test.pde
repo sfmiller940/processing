@@ -1,26 +1,18 @@
-// Establish a range of values on the complex plane
-// A different range will allow us to "zoom" in or out on the fractal
-// float xmin = -1.5; float ymin = -.1; float wh = 0.15;
 float xmin = -3;
 float ymin = -1.25;
 float w = 5;
 float h = 2.5;
-float frames = 200;
 float xcenter = -1.5;
 float ycenter = 0;
 
-// Maximum number of iterations for each point on the complex plane
 int maxiterations = 100;
 
 void setup(){
   size(500, 250);
-  background(255);
-  colorMode(HSB, 255 );
+  colorMode(HSB, maxiterations );
 }
 
 void draw(){
-  // Make sure we can write to the pixels[] array.
-  // Only need to do this once since we don't do any other drawing.
   loadPixels();
 
   w = 2000 / Math.pow(frameCount + 1, 3);
@@ -37,14 +29,11 @@ void draw(){
   float dx = (xmax - xmin) / (width);
   float dy = (ymax - ymin) / (height);
 
-  // Start y
   float y = ymin;
   for (int j = 0; j < height; j++) {
-    // Start x
     float x = xmin;
     for (int i = 0;  i < width; i++) {
 
-      // Now we test, as we iterate z = z^2 + cm does z tend towards infinity?
       float a = x;
       float b = y;
       int n = 0;
@@ -54,21 +43,17 @@ void draw(){
         float twoab = 2.0 * a * b;
         a = aa - bb + x;
         b = twoab + y;
-        // Infinty in our finite world is simple, let's just consider it 16
         if (aa + bb > 16.0) {
-          break;  // Bail
+          break; 
         }
         n++;
       }
 
-      // We color each pixel based on how long it takes to get to infinity
-      // If we never got there, let's pick the color black
       if (n == maxiterations) {
         pixels[i+j*width] = color(0);
       }
       else {
-        // Gosh, we could make fancy colors here if we wanted
-        pixels[i+j*width] = color(n*16 % 255, 255, 255);
+        pixels[i+j*width] = color( ((n*9) + frameCount) % maxiterations, maxiterations, maxiterations);
       }
       x += dx;
     }
