@@ -1,15 +1,18 @@
+// Global vars
 int maxIter = 200;
+int colorMod = 6;
 int firstX, firstY;
 mandelbrot fractal = new mandelbrot(window.innerWidth,(window.innerHeight - 60));
 
+// Setup
 void setup(){
   frameRate(60);
   size(window.innerWidth,(window.innerHeight - 60));
-  colorMode(HSB, maxIter );
   background(0);
   fractal.update();
 }
 
+// Main Loop
 void draw(){
   
   fractal.draw();
@@ -24,6 +27,7 @@ void draw(){
 
 }
 
+// Mouse functions
 void mousePressed(){
   firstX = mouseX;
   firstY = mouseY;
@@ -33,8 +37,7 @@ void mouseReleased(){
   fractal.zoom( );
 }
 
-
-
+// Main fractal class
 class mandelbrot{
   float xcenter = -0.75;
   float ycenter = 0;
@@ -62,8 +65,6 @@ class mandelbrot{
     float ymin = ycenter - (h/2);
     float xmax = xmin + w;
     float ymax = ymin + h;
-
-    // Calculate amount we increment x,y for each pixel
     float dx = (xmax - xmin) / (width);
     float dy = (ymax - ymin) / (height);
 
@@ -71,7 +72,6 @@ class mandelbrot{
     for (int j = 0; j < height; j++) {
       float x = xmin;
       for (int i = 0;  i < width; i++) {
-
         float a = x;
         float b = y;
         int n = 0;
@@ -96,28 +96,31 @@ class mandelbrot{
   }
 
   void draw(){
+    colorMode(HSB, maxIter );
     loadPixels();
     for (int i=0; i < width * height; i++){
       if (points.get(i) == maxIter) {
-        pixels[i] = color(0);
+        pixels[i] = color(0,0,0);
       }
       else {
-        pixels[i] = color( ((points.get(i) * 4) + frameCount) % maxIter, maxIter, maxIter);
+        pixels[i] = color( ( ( points.get(i) * colorMod ) + frameCount) % maxIter, maxIter, maxIter);
       }
     }
     updatePixels();
   }
 
-  void zoom( ){
+  void zoom(){
+
     xcenter = (xcenter - w/2) + ( w * (firstX + mouseX) / (2 * width) );
     ycenter = (ycenter - h/2) + ( h * (firstY + mouseY) / (2 * height));
-
     w *= abs( firstX - mouseX ) / width;
     h *= abs( firstY - mouseY ) / height;
+    //maxIter *= Math.max(  width / abs( firstX - mouseX ), height / abs( firstY - mouseY ) );
+    //colorMod *= Math.max(  width / abs( firstX - mouseX ), height / abs( firstY - mouseY ) );
 
     if (mouseButton == RIGHT){
-      w *= width;
-      h *= height;
+      w *= width/4;
+      h *= height/4;
     } 
 
     if ( w/h < (float)width/height){
@@ -127,9 +130,8 @@ class mandelbrot{
       h = w * height / width;
     }
 
-
     update();
-
+    
   }
 
 }
