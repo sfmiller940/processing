@@ -1,4 +1,4 @@
-int maxIter = 50;
+int maxIter = 200;
 int firstX, firstY;
 mandelbrot fractal = new mandelbrot(window.innerWidth,(window.innerHeight - 60));
 
@@ -30,7 +30,7 @@ void mousePressed(){
 }
 
 void mouseReleased(){
-  fractal.zoom();
+  fractal.zoom( );
 }
 
 
@@ -108,11 +108,18 @@ class mandelbrot{
     updatePixels();
   }
 
-  void zoom(){
+  void zoom( ){
     xcenter = (xcenter - w/2) + ( w * (firstX + mouseX) / (2 * width) );
     ycenter = (ycenter - h/2) + ( h * (firstY + mouseY) / (2 * height));
+
     w *= abs( firstX - mouseX ) / width;
     h *= abs( firstY - mouseY ) / height;
+
+    if (mouseButton == RIGHT){
+      w *= width;
+      h *= height;
+    } 
+
     if ( w/h < (float)width/height){
       w = h * width / height;
     }
@@ -120,7 +127,9 @@ class mandelbrot{
       h = w * height / width;
     }
 
+
     update();
+
   }
 
 }
