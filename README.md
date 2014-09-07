@@ -4,7 +4,7 @@ processing
 Experiments with Processing
 
 * Apps
-** clickdragspin.pde - http://poibella.org/processing/clickdragspin.html
+..* clickdragspin.pde - http://poibella.org/processing/clickdragspin.html
 * Gifs
 ** spiro1.pde - http://gfycat.com/ThoughtfulThickCollie http://gfycat.com/QualifiedSpanishAplomadofalcon
 ** flowers2.pde - http://gfycat.com/BlondRemarkableFerret
