@@ -5,8 +5,10 @@
 */
 
 // Global vars
-int maxIter = 200;
+int maxIter = 40;
+int testIter = 15;
 int colorMod = 10;
+int maxOrbit=0;
 int firstX, firstY;
 boolean isMenu = false;
 String activeState = "zoom";
@@ -23,7 +25,7 @@ void setup(){
   // <div>Icon made by <a href="http://www.simpleicon.com" title="SimpleIcon">SimpleIcon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
   zoomImg = loadImage("zoom.png");
   // <div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
-  moveImg = loadImage("move.png")
+  moveImg = loadImage("move.png");
 }
 
 // Main Loop
@@ -158,14 +160,14 @@ class mainMenuClass{
 */
 
 class mandelbrot{
-  float xcenter = -0.75;
-  float ycenter = 0;
-  float w = 2.75;
-  float h = 2.5;
+  float xcenter = 0.5;
+  float ycenter = 0.5;
+  float w = 1;
+  float h = 1;
   ArrayList<Integer> points = new ArrayList();
 
   mandelbrot(int WW, int HH){
-    for (int i=0; i < WW * HH; i++){ points.add(i); }
+    for (int i=0; i < WW * HH; i++){ points.add(0); }
     if ( w/h < (float)WW/HH){ w = h * WW / HH; }
     else{ h = w * HH / WW; }
   }
@@ -178,41 +180,39 @@ class mandelbrot{
     float dx = (xmax - xmin) / (width);
     float dy = (ymax - ymin) / (height);
 
+    for (int i=0; i < height * width; i++){ points.set(i, 0); }
+
+
     float y = ymin;
     for (int j = 0; j < height; j++) {
       float x = xmin;
       for (int i = 0;  i < width; i++) {
         float a = x;
         float b = y;
-        int n = 0;
-        while (n < maxIter) {
-          float aa = a * a;
-          float bb = b * b;
-          float twoab = 2.0 * a * b;
-          a = aa - bb + x;
-          b = twoab + y;
-          if (aa + bb > 16.0) {
-            break; 
+        for (int k=0; k<maxIter; k++ ) {
+          b = ( 0.5 + ( 0.5 * Math.sin( TWO_PI * ( b - a ) ) ) );
+          if (k>testIter){
+            int aPixel = (int)( width * (a - xmin) / w);
+            int bPixel = (int)(height * (b - ymin) / h);
+            points.set( aPixel + (bPixel * width),  1 + points.get( aPixel + (bPixel * width) ) );
+            if (points.get( aPixel + (bPixel * width)) >maxOrbit){ maxOrbit =  points.get(aPixel + (bPixel * width));}
           }
-          n++;
         }
-        points.set(i + (j * width), n);
         x += dx;
       }
       y += dy;
     }
+    for (int i=0; i<height * width; i++ ) {
+      points.get(i)=log(points.get(i));
+      if (points.get(i) >maxOrbit){ maxOrbit =  points.get(i);}      
+    }
   }
 
   void draw(){
-    colorMode(HSB, maxIter );
     loadPixels();
+    colorMode(HSB, maxIter );
     for (int i=0; i < width * height; i++){
-      if (points.get(i) == maxIter) {
-        pixels[i] = color(0,0,0);
-      }
-      else {
-        pixels[i] = color( ( ( points.get(i) * colorMod ) + frameCount) % maxIter, maxIter, maxIter);
-      }
+      pixels[i] = color( ( points.get(i)  + frameCount) % maxIter, maxIter, maxIter);
     }
     updatePixels();
   }
