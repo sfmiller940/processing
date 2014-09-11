@@ -8,7 +8,6 @@
 int maxIter = 40;
 int testIter = 15;
 int colorMod = 10;
-int maxOrbit=0;
 int firstX, firstY;
 boolean isMenu = false;
 String activeState = "zoom";
@@ -164,6 +163,7 @@ class mandelbrot{
   float ycenter = 0.5;
   float w = 1;
   float h = 1;
+  int maxOrbit=0;
   ArrayList<Integer> points = new ArrayList();
 
   mandelbrot(int WW, int HH){
@@ -173,6 +173,7 @@ class mandelbrot{
   }
 
   void update(){
+    maxOrbit = 0;
     float xmin = xcenter - (w/2);
     float ymin = ycenter - (h/2);
     float xmax = xmin + w;
@@ -193,7 +194,7 @@ class mandelbrot{
           b = ( 0.5 + ( 0.5 * Math.sin( TWO_PI * ( b - a ) ) ) );
           if (k>testIter){
             int aPixel = (int)( width * (a - xmin) / w);
-            int bPixel = (int)(height * (b - ymin) / h);
+            int bPixel = (int)( height * (b - ymin) / h);
             points.set( aPixel + (bPixel * width),  1 + points.get( aPixel + (bPixel * width) ) );
             if (points.get( aPixel + (bPixel * width)) >maxOrbit){ maxOrbit =  points.get(aPixel + (bPixel * width));}
           }
@@ -203,16 +204,17 @@ class mandelbrot{
       y += dy;
     }
     for (int i=0; i<height * width; i++ ) {
-      points.get(i)=log(points.get(i));
-      if (points.get(i) >maxOrbit){ maxOrbit =  points.get(i);}      
+      points.set( i, Math.log(  points.get(i) + 1 ) );
+      if ( maxOrbit < points.get(i) ){ maxOrbit = points.get(i); }      
     }
   }
 
   void draw(){
+    int maxColor = Math.log( maxOrbit );
     loadPixels();
-    colorMode(HSB, maxIter );
+    colorMode(HSB, maxColor );
     for (int i=0; i < width * height; i++){
-      pixels[i] = color( ( points.get(i)  + frameCount) % maxIter, maxIter, maxIter);
+      pixels[i] = color( ( points.get(i)  + (frameCount/2) ) %  maxColor, maxColor, maxColor);
     }
     updatePixels();
   }
@@ -222,8 +224,6 @@ class mandelbrot{
     ycenter = (ycenter - h/2) + ( h * (firstY + mouseY) / (2 * height));
     w *= abs( firstX - mouseX ) / width;
     h *= abs( firstY - mouseY ) / height;
-    //maxIter *= Math.max(  width / abs( firstX - mouseX ), height / abs( firstY - mouseY ) );
-    //colorMod *= Math.max(  width / abs( firstX - mouseX ), height / abs( firstY - mouseY ) );
 
     if (mouseButton == RIGHT){
       w *= width/4;
