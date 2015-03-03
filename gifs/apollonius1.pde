@@ -1,5 +1,5 @@
 // General variables
-int frames=500;
+int frames=200;
 int boxSize = 600;
 int boxCenter = boxSize/2;
 int ballsize=100;
@@ -123,5 +123,5 @@ void draw(){
   fill(6,8,8, 1);
   circ4 = solveApollonius( circ1, circ2, circ3, -1, -1, 1);
   ellipse( circ4.center[0], circ4.center[1] , 2 * circ4.radius, 2 * circ4.radius);
-  //saveFrame("line-######.png");
+  saveFrame("apol-######.png");
 }
