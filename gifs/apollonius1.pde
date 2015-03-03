@@ -18,7 +18,9 @@ public class Circle
  }
 }
  
-
+/*
+*  via http://rosettacode.org/wiki/Problem_of_Apollonius
+*/
 public Circle solveApollonius(Circle c1, Circle c2, Circle c3, int s1, int s2, int s3)
  {
   float x1 = c1.center[0];
@@ -31,8 +33,6 @@ public Circle solveApollonius(Circle c1, Circle c2, Circle c3, int s1, int s2, i
   float y3 = c3.center[1];
   float r3 = c3.radius;
 
-  //Currently optimized for fewest multiplications. Should be optimized for
-  //readability
   float v11 = 2*x2 - 2*x1;
   float v12 = 2*y2 - 2*y1;
   float v13 = x1*x1 - x2*x2 + y1*y1 - y2*y2 - r1*r1 + r2*r2;
@@ -60,8 +60,6 @@ public Circle solveApollonius(Circle c1, Circle c2, Circle c3, int s1, int s2, i
   float b = 2*M*N - 2*N*x1 + 2*P*Q - 2*Q*y1 + 2*s1*r1;
   float c = x1*x1 + M*M - 2*M*x1 + P*P + y1*y1 - 2*P*y1 - r1*r1;
 
-  // Find a root of a quadratic equation. This requires the circle centers not
-  // to be e.g. colinear
   float D = ( b*b ) - (4*a*c);
   float rs = (-b - sqrt(D))/(2*a);
   float xs = M + N * rs;
@@ -84,6 +82,7 @@ void draw(){
   float theta = TWO_PI * percent;
   float gamma = 0.5 - 0.5 * cos(theta);
   float beta = 0.5 - 0.5 * cos(0.5 * theta);
+  /* Setup size and position of three primary circles */
   float sizenow = ballsize * gamma;
   float R = bigR * gamma;
   float A1 = boxCenter;
@@ -93,10 +92,10 @@ void draw(){
   float C1 = (0.2 + beta) * boxCenter;
   float C2 = B2;
   fill(0);
+  // Draw all circles
   ellipse( A1, A2, sizenow, sizenow);
   ellipse( B1, B2, sizenow, sizenow);
   ellipse( C1, C2, sizenow, sizenow);
-  //saveFrame("line-######.png");
   Circle circ1 = new Circle(new float[]{ A1, A2}, sizenow * 0.5);
   Circle circ2 = new Circle(new float[]{ B1, B2}, sizenow * 0.5 );
   Circle circ3 = new Circle(new float[]{ C1, C2}, sizenow * 0.5);
@@ -124,4 +123,5 @@ void draw(){
   fill(6,8,8, 1);
   circ4 = solveApollonius( circ1, circ2, circ3, -1, -1, 1);
   ellipse( circ4.center[0], circ4.center[1] , 2 * circ4.radius, 2 * circ4.radius);
+  //saveFrame("line-######.png");
 }
