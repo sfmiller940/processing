@@ -1,3 +1,4 @@
+* apollonius.pde - http://gfycat.com/ThriftyOddEgret
 * dynasine1.pde - http://gfycat.com/SlimyFineBelugawhale
 * spiro1.pde - http://gfycat.com/ThoughtfulThickCollie http://gfycat.com/QualifiedSpanishAplomadofalcon
 * flowers2.pde - http://gfycat.com/BlondRemarkableFerret
