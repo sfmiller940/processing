@@ -1,10 +1,10 @@
 // General variables
-int frames=800;
+int frames=900;
 int boxWidth = 1000;
-int boxHeight = 700;
+int boxHeight = 562;
 int boxCenterY = boxHeight / 2;
 int boxCenterX = boxWidth / 2;
-int maxBallRadius=200;
+int maxBallRadius=180;
 float percent=0;
 int bigR = 450;
 
