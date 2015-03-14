@@ -1,3 +1,4 @@
+* apollonius3.pde - http://gfycat.com/ArcticOrnateIlsamochadegu
 * apollonius2.pde - https://www.youtube.com/watch?v=b3MC5vdKc6s
 * apollonius1.pde - http://gfycat.com/ThriftyOddEgret
 * dynasine1.pde - http://gfycat.com/SlimyFineBelugawhale
