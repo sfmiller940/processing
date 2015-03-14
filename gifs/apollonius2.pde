@@ -1,12 +1,12 @@
 // General variables
-int frames=900;
-int boxWidth = 1000;
-int boxHeight = 562;
+int frames=600;
+int boxWidth = 600;
+int boxHeight = 300;
 int boxCenterY = boxHeight / 2;
 int boxCenterX = boxWidth / 2;
-int maxBallRadius=180;
+int maxBallRadius=100;
 double percent=0;
-int bigR = 450;
+int bigR = 150;
 
 
 public class Circle
@@ -113,7 +113,7 @@ public void drawApoll( Circle circ1, Circle circ2, Circle circ3){
     fill( r );
     ellipse( (float) circ3.center[0], (float) circ3.center[1], (float) (2 * r), (float) (2 * r));
   }
-  int colorSize = frames / 10;
+  int colorSize = frames / 3;
   colorMode(HSB, colorSize );
   fill( frameCount % colorSize ,colorSize,colorSize,colorSize/8);
   Circle circ4 = solveApollonius( circ1, circ2, circ3, -1, -1,-1);
